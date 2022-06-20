@@ -1,0 +1,30 @@
+.error {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.error__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+.error__container > h1 {
+  font-size: 1.5rem;
+}
+.error__svg {
+  width: 12.5rem;
+  height: 12.5rem;
+  background: transparent;
+}
+.error__container > p {
+  font-size: 1rem;
+}
+.error__container > p > span {
+  font-weight: bold;
+  color: #9599e2;
+  background: #fff;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
