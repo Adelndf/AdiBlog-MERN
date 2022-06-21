@@ -1,9 +1,13 @@
 import "./Home.css";
+import { PostForm, Feed } from "../../components";
 
 const Home = () => {
   return (
     <div className="home">
-      <h2>this is home page</h2>
+      <div className="maxWidthScreen">
+        <PostForm />
+        <Feed />
+      </div>
     </div>
   );
 };

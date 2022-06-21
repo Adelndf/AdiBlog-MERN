@@ -2,15 +2,16 @@
 
 :root {
   --bg-clr: #dae0e6;
-  --black-clr: #111;
+  --black-clr: #222;
+  --black-clr-alt: #333;
   --white-clr: #fff;
   --white-clr-alt: #eee;
   --gray-clr: #777;
-  --blue-clr: #0079d3;
-  --blue-clr-alt: #1388e0;
-  --orange-clr: #ff4509;
-  --orange-clr-alt: #f86433;
-  --border: 1px solid var(--gray-clr);
+  --blue-clr: #7693fc;
+  --blue-clr-alt: #849efc;
+  --danger-clr: #fc7676;
+  --danger-clr-alt: #fc8484;
+  --border: 1px solid lightgray;
   --transition-150: all 0.15s ease-out;
   --transition-300: all 0.3s ease-in-out;
 }
@@ -24,6 +25,11 @@
 body {
   font-family: "Poppins", sans-serif;
   background: var(--bg-clr);
+}
+
+textarea,
+input {
+  font-family: "Poppins", sans-serif;
 }
 
 html {

@@ -11,29 +11,35 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [input, setInput] = useState("");
-  const user = true;
+  const [user, setUser] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
   };
 
-  const onLogout = () => {};
+  const onLogout = () => {
+    setUser(false);
+  };
+
+  const onLogin = () => {
+    setUser(true);
+  };
 
   return (
     <nav className="navbar">
       <div className="maxWidthScreen">
-        <div className="navbar__logo">
+        <Link to="/" className="navbar__logo">
           <h1>
             <span>Adi</span>
             <span>Blog</span>
           </h1>
-        </div>
-        <div className="navbar__search">
-          <form onSubmit={onSubmit}>
+        </Link>
+        <div className="navbar__divform">
+          <form onSubmit={onSubmit} className="navbar__form">
             <FaSearch />
             <input
               type="text"
-              placeholder="Search for user blogs by name"
+              placeholder="Search for posts by username"
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
@@ -43,25 +49,15 @@ const Navbar = () => {
           {user ? (
             <>
               <li>
-                <Link to="/user/123id">
-                  <FaUser /> Profile
-                </Link>
-              </li>
-              <li>
-                <Link to="/user/blogs">
-                  <FaBlog /> My blogs
-                </Link>
-              </li>
-              <li>
-                <div onClick={onLogout}>
+                <span onClick={onLogout}>
                   <FaSignOutAlt /> Logout
-                </div>
+                </span>
               </li>
             </>
           ) : (
             <>
               <li>
-                <Link to="/login">
+                <Link to="/login" onClick={onLogin}>
                   <FaSignInAlt /> Login
                 </Link>
               </li>
