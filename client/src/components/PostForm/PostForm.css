@@ -6,12 +6,15 @@
 
 .postForm__left {
   flex: 2;
-  padding: 1rem;
   border-radius: 10px;
   background: var(--white-clr);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+.postForm__leftPadding {
+  padding: 1rem;
   display: flex;
   gap: 1rem;
+  height: 100%;
 }
 .postForm__left.div {
   display: flex;
@@ -27,19 +30,6 @@
 .postForm__left.div h1 > span {
   color: var(--danger-clr);
 }
-.postForm__userAvatar {
-  width: 50px;
-  height: 50px;
-  background: var(--white-clr-alt);
-  border-radius: 50%;
-  overflow: hidden;
-}
-.postForm__userAvatar > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .postForm__inputs {
   display: flex;
   flex-direction: column;
@@ -122,21 +112,18 @@
 }
 
 .postForm__right {
-  flex: 1;
-  padding: 0px;
-  border-radius: 10px;
-  background: var(--black-clr-alt);
-}
-.postForm__right {
   display: none;
 }
 @media screen and (min-width: 768px) {
   .postForm__right {
+    flex: 1;
     display: block;
     height: 18.75rem;
     min-height: 18.75rem;
     max-height: 18.75rem;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background: var(--black-clr-alt);
   }
   .postForm__right > img {
     width: 100%;
@@ -149,6 +136,7 @@
     min-height: 18.75rem;
     max-height: 18.75rem;
   }
+
   .postForm__btns {
     margin-top: 2rem;
   }

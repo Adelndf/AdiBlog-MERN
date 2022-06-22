@@ -2,6 +2,8 @@
   background: var(--white-clr);
   height: 60px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
 }
 .navbar > .maxWidthScreen {
   display: flex;
