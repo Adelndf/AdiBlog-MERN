@@ -8,7 +8,7 @@ const PostForm = () => {
   const user = true;
   const [randomImg, setRandomImg] = useState(null);
   const [postDescription, setPostDescription] = useState("");
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null);
 
   const pickImage = () => {
     const imagesArr = [pic1, pic2, pic3, pic4, pic5, pic6];
