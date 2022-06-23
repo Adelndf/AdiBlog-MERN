@@ -4,16 +4,18 @@ import { useEffect, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import Avatar from "../Avatar/Avatar";
 
+const user = false;
+
 const PostForm = () => {
-  const user = true;
   const [randomImg, setRandomImg] = useState(null);
   const [postDescription, setPostDescription] = useState("");
   const [file, setFile] = useState(null);
 
   const pickImage = () => {
     const imagesArr = [pic1, pic2, pic3, pic4, pic5, pic6];
-    const randomIndex = Math.floor(Math.random() * imagesArr.length);
-    setRandomImg(imagesArr[randomIndex]);
+    const index = Math.floor(Math.random() * imagesArr.length);
+
+    setRandomImg(imagesArr[index]);
   };
 
   useEffect(() => {
@@ -68,12 +70,12 @@ const PostForm = () => {
         </form>
       ) : (
         <div className="postForm__left div">
-          <h1>
+          <h3>
             Please <span>login</span> for better experience <br />
-          </h1>
+          </h3>
         </div>
       )}
-      <div className="postForm__right">
+      <div onClick={pickImage} className="postForm__right">
         <img src={randomImg || pic1} alt="Random-gif-img" />
       </div>
     </div>

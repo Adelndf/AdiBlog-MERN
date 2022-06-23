@@ -63,5 +63,5 @@ html {
 }
 
 .app {
-  height: calc(100vh - 85px); /*Changeable*/
+  min-height: calc(100vh - 85px); /*Changeable*/
 }

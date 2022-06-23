@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const [input, setInput] = useState("");
   const [user, setUser] = useState(false);
+  const [toggleBar, setToggleBar] = useState(true);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +28,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <div className="maxWidthScreen">
+      <div className="navbar__maxWidth">
         <Link to="/" className="navbar__logo">
           <h1>
             <span>Adi</span>
@@ -45,7 +46,7 @@ const Navbar = () => {
             />
           </form>
         </div>
-        <ul className="navbar__right">
+        <ul className="navbar__right lg">
           {user ? (
             <>
               <li>
@@ -69,6 +70,41 @@ const Navbar = () => {
             </>
           )}
         </ul>
+        <div className="navbar__right mob">
+          {/* Do for mobile design */}
+          <div
+            onClick={() => setToggleBar(!toggleBar)}
+            className={`navbar__bars ${toggleBar ? "active" : ""}`}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div className={`navbar__mobile ${toggleBar ? "active" : ""}`}>
+            {user ? (
+              <>
+                <div>
+                  <span onClick={onLogout}>
+                    <FaSignOutAlt /> Logout
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <Link to="/login" onClick={onLogin}>
+                    <FaSignInAlt /> Login
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/register">
+                    <FaUser /> Register
+                  </Link>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </nav>
   );

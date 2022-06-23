@@ -32,6 +32,7 @@
 .post__like {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 .post__like > svg {
   color: var(--danger-clr);
@@ -41,6 +42,12 @@
 }
 .post__like > svg:active {
   transform: scale(0.9);
+}
+.post__like > span {
+  color: var(--danger-clr);
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 0.6rem;
 }
 
 @media screen and (min-width: 450px) {
