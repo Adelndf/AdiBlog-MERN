@@ -4,3 +4,4 @@ export { default as PostForm } from "./PostForm/PostForm";
 export { default as Feed } from "./Feed/Feed";
 export { default as Post } from "./Post/Post";
 export { default as Avatar } from "./Avatar/Avatar";
+export { default as UserInfo } from "./UserInfo/UserInfo";

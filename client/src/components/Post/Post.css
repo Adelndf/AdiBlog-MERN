@@ -1,3 +1,6 @@
+.post-wrapper {
+  position: relative;
+}
 .post {
   display: flex;
   flex-direction: column;
@@ -12,6 +15,7 @@
 .post > img {
   max-height: 250px;
   object-fit: cover;
+  width: 100%;
 }
 .post__info {
   padding: 1rem;
@@ -19,11 +23,25 @@
 .post__username {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+.post__username-f {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
 }
 .post__username > h3 {
   font-size: 1.2rem;
 }
+.post__username > svg {
+  font-size: 1.5rem;
+  color: var(--gray-clr);
+}
+.post__username > svg:hover {
+  color: var(--danger-clr);
+}
+
 .post__info > p {
   font-size: 1rem;
   color: var(--gray-clr);
@@ -48,6 +66,53 @@
   font-size: 1rem;
   font-weight: bold;
   margin-right: 0.6rem;
+}
+
+.post__sureDelete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 10px;
+}
+.post__sureDelete > h3 {
+  font-size: 1.5rem;
+  color: var(--white-clr);
+}
+.post__sureDelete > div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.post__sureDelete > div > button {
+  width: 100px;
+  padding: 5px 0;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  color: var(--white-clr);
+  cursor: pointer;
+}
+.post__sureDelete > div > button.delete {
+  background: var(--danger-clr);
+}
+.post__sureDelete > div > button.delete:hover {
+  background: var(--danger-clr-alt);
+}
+
+.post__sureDelete > div > button.cancel {
+  background: var(--blue-clr);
+}
+.post__sureDelete > div > button.cancel:hover {
+  background: var(--blue-clr-alt);
 }
 
 @media screen and (min-width: 450px) {

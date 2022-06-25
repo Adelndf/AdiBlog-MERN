@@ -1,0 +1,57 @@
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 200px;
+}
+.userInfo__username {
+  display: flex;
+  align-items: center;
+}
+.userInfo__username > .userInfo__username-input {
+  margin-right: 25px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 10px;
+  border: 3px solid var(--blue-clr);
+  outline: none;
+  text-transform: capitalize;
+  color: var(--blue-clr);
+  width: 180px;
+  font-size: 0.9rem;
+}
+.userInfo__username > .userInfo__username-p {
+  margin-right: 25px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  color: #777;
+  outline: none;
+  text-transform: capitalize;
+  width: 180px;
+  font-size: 0.9rem;
+}
+
+.userInfo__username > svg {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  color: var(--gray-clr);
+}
+.userInfo__username-input:focus + svg {
+  color: var(--blue-clr);
+}
+
+.userInfo__username > svg:hover {
+  color: var(--black-clr);
+}
+
+@media screen and (min-width: 991px) {
+  .userInfo__username {
+    margin-left: 50px;
+  }
+}

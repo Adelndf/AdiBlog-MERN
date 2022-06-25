@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import Avatar from "../Avatar/Avatar";
 
-const user = false;
+const user = true;
 
 const PostForm = () => {
   const [randomImg, setRandomImg] = useState(null);

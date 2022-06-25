@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
-import {
-  FaBlog,
-  FaSearch,
-  FaSignInAlt,
-  FaSignOutAlt,
-  FaUser,
-} from "react-icons/fa";
+import { FaSearch, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useClickOutside from "./../../hooks/useClickOutside";
+import UserInfo from "./../UserInfo/UserInfo";
 
 const Navbar = () => {
   const [input, setInput] = useState("");
   const [user, setUser] = useState(false);
-  const [toggleBar, setToggleBar] = useState(true);
+  const [toggleBar, setToggleBar] = useState(false);
+
+  const ref = useRef(null);
+  useClickOutside(ref, () => setToggleBar(false));
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -20,14 +19,16 @@ const Navbar = () => {
 
   const onLogout = () => {
     setUser(false);
+    setToggleBar(false);
   };
 
   const onLogin = () => {
     setUser(true);
+    setToggleBar(false);
   };
 
   return (
-    <nav className="navbar">
+    <nav ref={ref} className="navbar">
       <div className="navbar__maxWidth">
         <Link to="/" className="navbar__logo">
           <h1>
@@ -84,6 +85,11 @@ const Navbar = () => {
             {user ? (
               <>
                 <div>
+                  <span className="info">
+                    <UserInfo />
+                  </span>
+                </div>
+                <div>
                   <span onClick={onLogout}>
                     <FaSignOutAlt /> Logout
                   </span>
@@ -97,7 +103,7 @@ const Navbar = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link to="/register">
+                  <Link to="/register" onClick={() => setToggleBar(false)}>
                     <FaUser /> Register
                   </Link>
                 </div>
