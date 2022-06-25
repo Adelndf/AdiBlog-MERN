@@ -3,18 +3,19 @@ import { pic1, pic2, pic3, pic4, pic5, pic6 } from "../../images";
 import { useEffect, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import Avatar from "../Avatar/Avatar";
+import { createPost } from "../../api";
+import axios from "axios";
 
 const user = true;
 
 const PostForm = () => {
   const [randomImg, setRandomImg] = useState(null);
-  const [postDescription, setPostDescription] = useState("");
-  const [file, setFile] = useState(null);
+  const [desc, setDesc] = useState("");
+  const [file, setFile] = useState("");
 
   const pickImage = () => {
     const imagesArr = [pic1, pic2, pic3, pic4, pic5, pic6];
     const index = Math.floor(Math.random() * imagesArr.length);
-
     setRandomImg(imagesArr[index]);
   };
 
@@ -22,14 +23,24 @@ const PostForm = () => {
     pickImage();
   }, []);
 
-  const clearForm = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setPostDescription("");
-    setFile("");
-  };
+    const newPost = {
+      description: desc,
+      image: file,
+      userID: "123",
+    };
+    await axios
+      .post("http://localhost:5000/api/posts", newPost)
+      .then(function (response) {
+        console.log(response.status);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+    setDesc("");
+    setFile("");
   };
 
   return (
@@ -37,7 +48,9 @@ const PostForm = () => {
       {user ? (
         <form className="postForm__left" onSubmit={onSubmit}>
           <div className="postForm__leftPadding">
-            <Avatar id="adel" size="50px" />
+            <div className="postForm__avatar">
+              <Avatar id="adel" size="50px" />
+            </div>
             <div className="postForm__inputs">
               <div className="postForm__input">
                 <textarea
@@ -45,9 +58,9 @@ const PostForm = () => {
                   rows={5}
                   type="text"
                   className="postForm__inputText"
-                  value={postDescription}
-                  onChange={(e) => setPostDescription(e.target.value)}
                   placeholder="What do you wanna talk about.?"
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
                 />
               </div>
               <div className="postForm__input">
@@ -63,7 +76,7 @@ const PostForm = () => {
               </div>
               <div className="postForm__btns">
                 <button type="submit">post</button>
-                <button onClick={clearForm}>clear</button>
+                <button>clear</button>
               </div>
             </div>
           </div>

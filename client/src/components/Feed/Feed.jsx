@@ -4,7 +4,7 @@ import { UserInfo, Post } from "./../";
 
 const user = false;
 
-const Feed = () => {
+const Feed = ({ allPosts }) => {
   return (
     <div className="feed">
       <div className="feed__left">
@@ -13,11 +13,9 @@ const Feed = () => {
           <span> Adi</span>
           <span>Blog </span>
         </h1>
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
+        {allPosts.map((post) => (
+          <Post post={post} key={post._id} />
+        ))}
       </div>
       <div className="feed__right">
         <UserInfo />

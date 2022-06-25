@@ -19,6 +19,7 @@
 }
 .post__info {
   padding: 1rem;
+  width: 100%;
 }
 .post__username {
   display: flex;

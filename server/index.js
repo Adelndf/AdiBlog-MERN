@@ -1,13 +1,15 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
+const cors = require("cors");
 const connectDB = require("./config/db");
 const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const { errorHandler } = require("./middleware/error");
 
+const app = express();
+app.use(cors());
 connectDB();
 
-const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

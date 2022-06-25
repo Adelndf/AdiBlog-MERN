@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 const getPosts = asyncHandler(async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().sort({ createdAt: -1 });
     res.status(200).json(posts);
   } catch (err) {
     res.status(500);
@@ -13,12 +13,11 @@ const getPosts = asyncHandler(async (req, res) => {
 });
 
 const createPost = asyncHandler(async (req, res) => {
-  const { description, image, likes, userID } = req.body;
+  const { description, image, userID } = req.body;
   try {
     const newPost = await Post.create({
       description,
       image,
-      likes,
       userID,
     });
     res.status(201).json(newPost);
@@ -43,11 +42,12 @@ const getSinglePost = asyncHandler(async (req, res) => {
 });
 
 const updatePost = asyncHandler(async (req, res) => {
+  const { description } = req.body;
+
   try {
     const post = await Post.findById(req.params.id);
-
     if (post.userID === req.body.userID) {
-      await post.updateOne({ $set: req.body });
+      await post.updateOne({ description });
       res.status(200).json({ message: "Updated post seccesfully!" });
     }
   } catch (err) {
