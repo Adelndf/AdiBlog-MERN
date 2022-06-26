@@ -43,7 +43,7 @@ const Post = ({ post }) => {
         <div className="post__info">
           <div className="post__username">
             <div className="post__username-f">
-              <Avatar id="adel" size="40px" />
+              <Avatar seed="adel" size="40px" />
               <h3>{username}</h3>
             </div>
             {user && <AiOutlineDelete onClick={() => setSureDelete(true)} />}

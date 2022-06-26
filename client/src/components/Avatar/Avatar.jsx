@@ -1,7 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import "./Avatar.css";
 
-const Avatar = ({ id, size }) => {
+const Avatar = ({ seed, size }) => {
   return (
     <div
       className="avatar"
@@ -11,7 +12,7 @@ const Avatar = ({ id, size }) => {
       }}
     >
       <img
-        src={`https://avatars.dicebear.com/api/avataaars/${id}.svg`} // change avatar on user ID
+        src={`https://avatars.dicebear.com/api/avataaars/${seed}.svg`} // change avatar on user ID
         alt="user-avatar"
       />
     </div>

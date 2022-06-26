@@ -6,18 +6,18 @@ const Error404 = () => {
   const [count, setCount] = useState(5);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (count !== 0) {
-  //     setTimeout(() => {
-  //       setCount(count - 1);
-  //     }, 1000);
-  //   } else {
-  //     setCount(0);
-  //     setTimeout(() => {
-  //       navigate("/");
-  //     }, 1000);
-  //   }
-  // }, [count, navigate]);
+  useEffect(() => {
+    if (count !== 0) {
+      setTimeout(() => {
+        setCount(count - 1);
+      }, 1000);
+    } else {
+      setCount(0);
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  }, [count, navigate]);
 
   return (
     <div className="error">

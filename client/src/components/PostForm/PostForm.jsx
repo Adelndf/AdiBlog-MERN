@@ -3,15 +3,14 @@ import { pic1, pic2, pic3, pic4, pic5, pic6 } from "../../images";
 import { useEffect, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import Avatar from "../Avatar/Avatar";
-import { createPost } from "../../api";
 import axios from "axios";
-
-const user = true;
+import { useSelector } from "react-redux";
 
 const PostForm = () => {
   const [randomImg, setRandomImg] = useState(null);
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState("");
+  const { user } = useSelector((state) => state.auth);
 
   const pickImage = () => {
     const imagesArr = [pic1, pic2, pic3, pic4, pic5, pic6];
@@ -25,22 +24,27 @@ const PostForm = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const newPost = {
-      description: desc,
-      image: file,
-      userID: "123",
-    };
-    await axios
-      .post("http://localhost:5000/api/posts", newPost)
-      .then(function (response) {
-        console.log(response.status);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    try {
+      const newPost = {
+        description: desc,
+        image: file,
+        userID: "123",
+      };
+      await axios
+        .post("http://localhost:5000/api/posts", newPost)
+        .then(function (response) {
+          console.log(response.status);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      console.log(newPost);
 
-    setDesc("");
-    setFile("");
+      setDesc("");
+      setFile("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -49,7 +53,7 @@ const PostForm = () => {
         <form className="postForm__left" onSubmit={onSubmit}>
           <div className="postForm__leftPadding">
             <div className="postForm__avatar">
-              <Avatar id="adel" size="50px" />
+              <Avatar seed={user.username} size="50px" />
             </div>
             <div className="postForm__inputs">
               <div className="postForm__input">

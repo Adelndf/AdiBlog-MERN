@@ -3,8 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: row-reverse;
-  /* It's reversed */
+  position: relative;
 }
 .login__left {
   display: flex;
@@ -13,9 +12,13 @@
 }
 .login__right {
   height: 100%;
-  display: none;
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  z-index: -1;
+  position: absolute;
+  left: 0;
+  box-shadow: -4px 4px 12px rgba(0, 0, 0, 0.1);
   border-right: 5px solid var(--white-clr);
+  opacity: 0.8;
 }
 .login__right > img {
   width: 100%;
@@ -56,9 +59,6 @@
 .login__box > p {
   margin: 1rem 0;
   font-size: 0.9rem;
-}
-.login__err {
-  color: var(--danger-clr);
 }
 .login__box > p > a {
   color: var(--blue-clr);
@@ -101,8 +101,7 @@
 
 @media screen and (min-width: 768px) {
   .login__right {
-    display: block;
-    flex: 1;
+    width: 40%;
   }
   .login__left {
     flex: 2;

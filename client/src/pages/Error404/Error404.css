@@ -1,5 +1,5 @@
 .error {
-  min-height: calc(100vh - 85px); /*Changeable*/
+  min-height: var(--screen-mHight);
   display: grid;
   place-items: center;
 }

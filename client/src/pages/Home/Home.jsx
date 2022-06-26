@@ -1,16 +1,19 @@
 import "./Home.css";
-import { PostForm, Feed } from "../../components";
+import { PostForm, Post, UserInfo } from "../../components";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getAllPosts } from "../../api";
 
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
 
   useEffect(() => {
     const getPosts = async () => {
-      const { data } = await getAllPosts();
-      setAllPosts(data);
+      try {
+        const { data } = await axios.get("http://localhost:5000/api/posts");
+        setAllPosts(data);
+      } catch (err) {
+        console.log(err);
+      }
     };
     getPosts();
   }, [allPosts]);
@@ -19,7 +22,21 @@ const Home = () => {
     <div className="home">
       <div className="maxWidthScreen">
         <PostForm />
-        <Feed allPosts={allPosts} />
+        <div className="home__feed">
+          <div className="home__left">
+            <h1>
+              Explore
+              <span> Adi</span>
+              <span>Blog </span>
+            </h1>
+            {allPosts.map((post) => (
+              <Post post={post} key={post._id} />
+            ))}
+          </div>
+          <div className="home__right">
+            <UserInfo />
+          </div>
+        </div>
       </div>
     </div>
   );

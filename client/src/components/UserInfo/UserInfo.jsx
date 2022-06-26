@@ -2,13 +2,13 @@ import React, { useRef, useState } from "react";
 import Avatar from "../Avatar/Avatar";
 import { FaRegEdit } from "react-icons/fa";
 import "./UserInfo.css";
-
-const user = true;
+import { useSelector } from "react-redux";
 
 const UserInfo = () => {
   const [username, setUsername] = useState("username");
   const [edit, setEdit] = useState(false);
   const inputRef = useRef(null);
+  const { user } = useSelector((state) => state.auth);
 
   const handleClick = (e) => {
     setEdit(!edit);
@@ -28,20 +28,20 @@ const UserInfo = () => {
     <div className="userInfo">
       {user ? (
         <>
-          <Avatar id="Random" size="6.25rem" />
+          <Avatar seed={user.username} size="6.25rem" />
           <form
             onSubmit={handleSubmit}
             type="submit"
             className="userInfo__username"
           >
             {!edit ? (
-              <p className="userInfo__username-p">{username}</p>
+              <p className="userInfo__username-p">{user.username}</p>
             ) : (
               <input
                 ref={inputRef}
                 className="userInfo__username-input"
                 type="text"
-                value={username}
+                value={user.username}
                 onChange={(e) => setUsername(e.target.value)}
               />
             )}

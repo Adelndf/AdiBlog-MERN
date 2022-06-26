@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .register__left {
   display: flex;
@@ -11,9 +12,13 @@
 }
 .register__right {
   height: 100%;
-  display: none;
+  width: 60%;
+  z-index: -1;
+  position: absolute;
+  right: 0;
   box-shadow: -4px 4px 12px rgba(0, 0, 0, 0.1);
   border-left: 5px solid var(--white-clr);
+  opacity: 0.8;
 }
 .register__right > img {
   width: 100%;
@@ -55,9 +60,7 @@
   margin: 1rem 0;
   font-size: 0.9rem;
 }
-.register__err {
-  color: var(--danger-clr);
-}
+
 .register__box > p > a {
   color: var(--blue-clr);
   font-weight: bold;
@@ -99,8 +102,8 @@
 
 @media screen and (min-width: 768px) {
   .register__right {
-    display: block;
-    flex: 1;
+    width: 40%;
+    opacity: 0.9;
   }
   .register__left {
     flex: 2;

@@ -1,14 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import { FaSearch, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useClickOutside from "./../../hooks/useClickOutside";
 import UserInfo from "./../UserInfo/UserInfo";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, reset } from "../../app/redux/auth/authSlice";
 
 const Navbar = () => {
   const [input, setInput] = useState("");
-  const [user, setUser] = useState(false);
   const [toggleBar, setToggleBar] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
 
   const ref = useRef(null);
   useClickOutside(ref, () => setToggleBar(false));
@@ -18,12 +22,13 @@ const Navbar = () => {
   };
 
   const onLogout = () => {
-    setUser(false);
     setToggleBar(false);
+    dispatch(logout());
+    dispatch(reset());
+    navigate("/");
   };
 
   const onLogin = () => {
-    setUser(true);
     setToggleBar(false);
   };
 
