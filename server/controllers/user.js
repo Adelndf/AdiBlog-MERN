@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 // Public
 const getUsers = asyncHandler(async (req, res) => {
   try {
-    const users = await User.find().select("-password");
+    const users = await User.find().sort({ createdAt: -1 }).select("-password");
     res.status(200).json(users);
   } catch (error) {
     console.log("Can't find users");
@@ -25,31 +25,36 @@ const createUser = asyncHandler(async (req, res) => {
   }
   // Check if user already exists !!
   const emailExists = await User.findOne({ email });
-  const usernameExists = await User.findOne({ username });
-  if (emailExists || usernameExists) {
+  if (emailExists) {
     res.status(400);
-    throw new Error("User/Email already exists");
+    throw new Error("Email already exists");
   }
-  // Hash password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  // Create user
-  const newUser = await User.create({
-    username: username.toLowerCase(),
-    email: email.toLowerCase(),
-    password: hashedPassword,
-  });
-  if (newUser) {
-    res.status(201).json({
-      _id: newUser._id,
-      username: newUser.username,
-      email: newUser.email,
-      token: generateToken(newUser._id),
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    // Create user
+    const newUser = await User.create({
+      username: username.toLowerCase(),
+      email: email.toLowerCase(),
+      password: hashedPassword,
     });
-  } else {
+    if (newUser) {
+      res.status(201).json({
+        _id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        token: generateToken(newUser._id),
+        isAdmin: newUser.isAdmin,
+        createdAt: newUser.createdAt,
+        updatedAt: newUser.updatedAt,
+      });
+    }
+  } catch (err) {
     res.status(400);
     throw new Error("Invalid user data!!");
   }
+
+  // Hash password
 });
 
 // Login user
@@ -65,6 +70,9 @@ const loginUser = asyncHandler(async (req, res) => {
       username: user.username,
       email: user.email,
       token: generateToken(user._id),
+      isAdmin: user.isAdmin,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     });
   } else {
     res.status(400);
@@ -82,7 +90,15 @@ const getUser = asyncHandler(async (req, res) => {
       throw new Error("User not found with this ID!!");
     }
 
-    res.status(200).json(user);
+    res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      token: generateToken(user._id),
+      isAdmin: user.isAdmin,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    });
   } catch (err) {
     res.status(500);
     throw new Error("User not found with this ID!!");
@@ -101,19 +117,24 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error(`Username ${username} already exists`);
   }
 
-  if (req.body.userID === req.params.id || req.body.isAdmin) {
-    try {
-      await User.findByIdAndUpdate(req.params.id, {
-        username: username.toLowerCase(),
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, {
+      username: username.toLowerCase(),
+    });
+    if (user) {
+      res.status(200).json({
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        token: generateToken(user._id),
+        isAdmin: user.isAdmin,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       });
-      res.status(200).json({ message: "Updated seccesfully" });
-    } catch (err) {
-      res.status(400);
-      throw new Error("somthing is wrong");
     }
-  } else {
+  } catch (err) {
     res.status(400);
-    throw new Error("Can't do this action");
+    throw new Error("somthing is wrong");
   }
 });
 
