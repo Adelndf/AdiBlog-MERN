@@ -80,7 +80,6 @@ const PostForm = () => {
               </div>
               <div className="postForm__btns">
                 <button type="submit">post</button>
-                <button>clear</button>
               </div>
             </div>
           </div>

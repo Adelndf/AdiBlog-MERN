@@ -1,35 +1,20 @@
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { log2 } from "../../images";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
-import { login, reset } from "../../app/redux/auth/authSlice";
+import { login } from "../../app/redux/auth/authSlice";
 import { Spinner } from "../../components";
+import LoginRegister from "../../HOC/LoginRegister";
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const { email, password } = formData;
-  const { user, isLoading, isSuccess, isError, message } = useSelector(
-    (state) => state.auth
-  );
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    if (isSuccess || user) {
-      navigate("/");
-    }
-
-    dispatch(reset());
-  }, [dispatch, isError, isSuccess, message, navigate, user]);
+  const { isLoading } = useSelector((state) => state.auth);
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -100,4 +85,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginRegister(Login);

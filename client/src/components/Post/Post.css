@@ -53,15 +53,6 @@
   justify-content: flex-end;
   align-items: center;
 }
-.post__like > svg {
-  color: var(--danger-clr);
-  cursor: pointer;
-  font-size: 1.7rem;
-  transition: var(--transition-150);
-}
-.post__like > svg:active {
-  transform: scale(0.9);
-}
 .post__like > span {
   color: var(--danger-clr);
   font-size: 1rem;

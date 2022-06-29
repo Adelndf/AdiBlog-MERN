@@ -19,6 +19,7 @@ const Navbar = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setInput("");
   };
 
   const onLogout = () => {
@@ -42,14 +43,32 @@ const Navbar = () => {
           </h1>
         </Link>
         <div className="navbar__divform">
-          <form onSubmit={onSubmit} className="navbar__form">
+          <form
+            style={{
+              opacity: `${user ? 1 : 0.7}`,
+              cursor: `${user ? "" : "not-allowed"}`,
+            }}
+            onSubmit={onSubmit}
+            className="navbar__form"
+          >
             <FaSearch />
             <input
+              disabled={!user}
               type="text"
-              placeholder="Search for posts by username"
+              placeholder={
+                user ? `Search for posts by username` : `Login to use search`
+              }
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              style={{
+                cursor: `${user ? "" : "not-allowed"}`,
+              }}
             />
+            {input && (
+              <div className="navbar__divform-message">
+                Still in development.. :(
+              </div>
+            )}
           </form>
         </div>
         <ul className="navbar__right lg">

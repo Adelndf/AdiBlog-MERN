@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./Register.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { log3 } from "../../images";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { register, reset } from "../../app/redux/auth/authSlice";
+import { register } from "../../app/redux/auth/authSlice";
 import { Spinner } from "./../../components";
+import LoginRegister from "../../HOC/LoginRegister";
 
 const Register = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     username: "",
@@ -17,21 +17,9 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+
   const { username, email, confirmEmail, password, confirmPassword } = formData;
-  const { user, isLoading, isSuccess, isError, message } = useSelector(
-    (state) => state.auth
-  );
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    if (isSuccess || user) {
-      navigate("/");
-    }
-
-    dispatch(reset());
-  }, [user, isSuccess, isError, message, navigate, dispatch]);
+  const { isLoading } = useSelector((state) => state.auth);
 
   const onChange = (e) => {
     const name = e.target.name;
@@ -74,6 +62,7 @@ const Register = () => {
                 onChange={onChange}
                 value={username}
                 required
+                maxLength={11}
               />
               <input
                 type="email"
@@ -133,4 +122,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default LoginRegister(Register);

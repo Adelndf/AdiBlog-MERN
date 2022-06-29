@@ -6,6 +6,7 @@
   justify-content: center;
   gap: 1rem;
   min-height: 200px;
+  padding: 1rem;
 }
 .userInfo__username {
   display: flex;

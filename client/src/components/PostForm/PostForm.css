@@ -98,19 +98,12 @@
 .postForm__btns button:active {
   transform: scale(0.95);
 }
-.postForm__btns button:first-child {
+.postForm__btns button {
   background: var(--blue-clr);
   color: var(--white-clr);
 }
-.postForm__btns button:last-child {
-  background: var(--danger-clr);
-  color: var(--white-clr);
-}
-.postForm__btns button:first-child:hover {
+.postForm__btns button:hover {
   background: var(--blue-clr-alt);
-}
-.postForm__btns button:last-child:hover {
-  background: var(--danger-clr-alt);
 }
 
 .postForm__right {

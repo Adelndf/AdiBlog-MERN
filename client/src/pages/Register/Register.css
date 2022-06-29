@@ -19,6 +19,7 @@
   box-shadow: -4px 4px 12px rgba(0, 0, 0, 0.1);
   border-left: 5px solid var(--white-clr);
   opacity: 0.8;
+  transition: var(--transition-150);
 }
 .register__right > img {
   width: 100%;

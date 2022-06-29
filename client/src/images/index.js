@@ -9,3 +9,4 @@ export { default as placeholder } from "./placeholder.png";
 export { default as log1 } from "./log1.gif";
 export { default as log2 } from "./log2.gif";
 export { default as log3 } from "./log3.gif";
+export { default as loginPic } from "./login-pic.gif";
