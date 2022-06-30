@@ -3,34 +3,36 @@ import { PostForm, Post, UserInfo } from "../../components";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 const Home = () => {
-  const [allPosts, setAllPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
 
   const getPosts = async () => {
     try {
       const { data } = await axios.get("http://localhost:5000/api/posts");
-      setAllPosts(data);
+      setPosts(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getUsers = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:5000/api/users");
+      setUsers(data.slice(0, 5));
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getPosts();
-  }, []);
-
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const { data } = await axios.get("http://localhost:5000/api/users");
-        setUsers(data.slice(0, 5));
-      } catch (err) {
-        console.log(err);
-      }
-    };
     getUsers();
+  }, []);
+  
+  useEffect(() => {
+    getPosts();
   }, []);
 
   return (
@@ -44,7 +46,7 @@ const Home = () => {
               <span> Adi</span>
               <span>Blog </span>
             </h1>
-            {allPosts.map((post) => (
+            {posts.map((post) => (
               <Post post={post} key={post._id} />
             ))}
           </div>

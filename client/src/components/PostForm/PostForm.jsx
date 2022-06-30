@@ -27,18 +27,17 @@ const PostForm = () => {
     try {
       const newPost = {
         description: desc,
-        image: file,
-        userID: "123",
+        postImage: file, // fix
+        userID: user._id,
       };
       await axios
         .post("http://localhost:5000/api/posts", newPost)
         .then(function (response) {
-          console.log(response.status);
+          console.log(response.data);
         })
         .catch(function (error) {
           console.log(error);
         });
-      console.log(newPost);
 
       setDesc("");
       setFile("");
