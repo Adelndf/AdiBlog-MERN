@@ -10,6 +10,8 @@
 
 .home__left {
   flex: 2;
+  position: relative;
+  min-height: 300px;
 }
 .home__left h1 {
   color: var(--black-clr);
@@ -62,6 +64,7 @@
     border-radius: 10px;
     padding: 1rem;
     position: relative;
+    min-height: 232.67px;
   }
   .home__users > h3 {
     font-size: 1.2rem;

@@ -1,39 +1,24 @@
 import "./Home.css";
-import { PostForm, Post, UserInfo } from "../../components";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { PostForm, Post, UserInfo, Spinner } from "../../components";
+import { useEffect } from "react";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { getPosts } from "../../app/redux/posts/postsSlice";
+import { getUsers } from "../../app/redux/users/usersSlice";
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
-  const [users, setUsers] = useState([]);
-
-  const getPosts = async () => {
-    try {
-      const { data } = await axios.get("http://localhost:5000/api/posts");
-      setPosts(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const getUsers = async () => {
-    try {
-      const { data } = await axios.get("http://localhost:5000/api/users");
-      setUsers(data.slice(0, 5));
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { posts, isLoading, message, isError } = useSelector(
+    (state) => state.posts
+  );
+  const topUsers = useSelector((state) => state.users);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getUsers();
-  }, []);
-  
-  useEffect(() => {
-    getPosts();
-  }, []);
+    dispatch(getUsers());
+    dispatch(getPosts());
+    console.log("123");
+  }, [dispatch]);
 
   return (
     <div className="home">
@@ -46,23 +31,37 @@ const Home = () => {
               <span> Adi</span>
               <span>Blog </span>
             </h1>
-            {posts.map((post) => (
-              <Post post={post} key={post._id} />
-            ))}
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <>
+                {posts.map((post) => (
+                  <Post post={post} key={post._id} />
+                ))}
+              </>
+            )}
           </div>
           <div className="home__right">
             <div className="home__users">
               <h3>Recent 5 users, Welcome..</h3>
               <div className="home__users-container">
-                {users.map((user, i) => (
-                  <div className="home__user" key={user._id}>
-                    <span>
-                      <span className="home__user-index">{i + 1}</span>
-                      {user.username}
-                    </span>
-                    <span>{moment(new Date(user.createdAt)).fromNow()}</span>
-                  </div>
-                ))}
+                {topUsers.isLoading ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    {topUsers.users.map((user, i) => (
+                      <div className="home__user" key={user._id}>
+                        <span>
+                          <span className="home__user-index">{i + 1}</span>
+                          {user.username}
+                        </span>
+                        <span>
+                          {moment(new Date(user.createdAt)).fromNow()}
+                        </span>
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
             </div>
             <div className="home__userInfo">

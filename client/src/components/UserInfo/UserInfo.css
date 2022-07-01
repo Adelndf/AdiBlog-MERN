@@ -7,6 +7,7 @@
   gap: 1rem;
   min-height: 200px;
   padding: 1rem;
+  position: relative;
 }
 .userInfo > h3 {
   color: var(--black-clr);

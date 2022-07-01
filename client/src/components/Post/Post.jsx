@@ -22,7 +22,7 @@ const Post = ({ post }) => {
       setUserPost(res.data);
     };
     getUserPost();
-  }, [post.userID]);
+  }, [post.userID, user.username]);
 
   useEffect(() => {
     if (user?._id === post.userID) {

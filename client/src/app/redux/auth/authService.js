@@ -1,3 +1,4 @@
+import * as api from "../../api";
 import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/users/";
@@ -22,10 +23,20 @@ const login = async (userData) => {
   return res.data;
 };
 
+const updateUser = async (newUserData, id) => {
+  // api.updateUser(id, payload);
+  const res = await axios.put(API_URL + id, newUserData);
+  if (res.data) {
+    localStorage.setItem("user", JSON.stringify(res.data));
+  }
+  return res.data;
+};
+
 const authService = {
   register,
   logout,
   login,
+  updateUser,
 };
 
 export default authService;

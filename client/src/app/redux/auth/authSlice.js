@@ -53,6 +53,23 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   }
 });
 
+export const updateUser = createAsyncThunk(
+  "auth/update",
+  async (newUserData, thunkAPI) => {
+    try {
+      return await authService.updateUser(newUserData, user._id);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 // The Slice state
 export const authSlice = createSlice({
   name: "auth",
@@ -96,6 +113,20 @@ export const authSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(login.rejected, (state, action) => {
+      state.isError = true;
+      state.isLoading = false;
+      state.user = null;
+      state.message = action.payload;
+    });
+    builder.addCase(updateUser.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      state.isSuccess = true;
+      state.isLoading = false;
+      state.user = action.payload;
+    });
+    builder.addCase(updateUser.rejected, (state, action) => {
       state.isError = true;
       state.isLoading = false;
       state.user = null;

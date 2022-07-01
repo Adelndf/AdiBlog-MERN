@@ -2,18 +2,25 @@ import React, { useRef, useState } from "react";
 import Avatar from "../Avatar/Avatar";
 import { FaRegEdit } from "react-icons/fa";
 import "./UserInfo.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { FaArrowDown } from "react-icons/fa";
 import moment from "moment";
+import * as api from "../../app/api";
+import { updateUser } from "../../app/redux/auth/authSlice";
+import { useMemo } from "react";
+import Spinner from "../Spinner/Spinner";
 
 const UserInfo = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, isSuccess, isError, message, isLoading } = useSelector(
+    (state) => state.auth
+  );
   const [inputUsernema, setInputUsernema] = useState(user ? user.username : "");
   const [edit, setEdit] = useState(false);
   const inputRef = useRef(null);
   const [toggleArrow, setToggleArrow] = useState(false);
+  const dispatch = useDispatch();
 
   const handleClick = (e) => {
     setEdit(!edit);
@@ -23,44 +30,19 @@ const UserInfo = () => {
     }
   };
 
-  const updateName = async (userID, newName) => {
-    try {
-      const res = await axios.put(
-        `http://localhost:5000/api/users/${userID}`,
-        newName
-      );
-      return res.data;
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return toast.error(message);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/users/${user._id}`
-      );
+      const { data } = await api.fetchUserById(user._id);
       const newName = inputRef.current.value;
-      const sendData = {
-        ...res.data,
-        username: newName,
-        userID: user._id,
-      };
       setInputUsernema(newName);
-      updateName(user._id, sendData);
-      localStorage.setItem("user", JSON.stringify(sendData));
-      setEdit(false);
+      const sendData = {
+        ...data,
+        username: newName,
+      };
+      dispatch(updateUser(sendData));
       toast.success(`Updated to ${newName} 🥳`);
-      setTimeout(function () {
-        window.location.reload(false);
-      }, 1500);
+      setEdit(false);
     } catch (error) {
       const message =
         (error.response &&
@@ -76,55 +58,63 @@ const UserInfo = () => {
     <div className={toggleArrow ? "userInfo active" : "userInfo"}>
       {user ? (
         <>
-          <h3>User info</h3>
-          <div>
-            <Avatar seed={inputUsernema} size="6.25rem" />
-          </div>
-          <form
-            onSubmit={handleSubmit}
-            type="submit"
-            className="userInfo__username"
-          >
-            {!edit ? (
-              <p className="userInfo__username-p">{inputUsernema}</p>
-            ) : (
-              <input
-                ref={inputRef}
-                className="userInfo__username-input"
-                type="text"
-                value={inputUsernema}
-                onChange={(e) => setInputUsernema(e.target.value)}
-              />
-            )}
-            <FaRegEdit
-              style={{ color: `${edit ? "#7693fc" : "#777"}` }}
-              onClick={handleClick}
-            />
-          </form>
-          <div
-            className={toggleArrow ? "arrowIcon active" : "arrowIcon"}
-            onClick={() => setToggleArrow(!toggleArrow)}
-          >
-            <FaArrowDown />
-          </div>
-          <div
-            className={toggleArrow ? "userInfo__mini active" : "userInfo__mini"}
-          >
-            <p>
-              <span>Username:</span> {inputUsernema}
-            </p>
-            <p>
-              <span>Email:</span> {user.email}
-            </p>
-            <p>
-              <span>Created in:</span>{" "}
-              {moment(new Date(user.createdAt)).format("MM/DD/YYYY")}
-            </p>
-            <p>
-              <span>Last update:</span>{" "}
-              {moment(new Date(user.updatedAt)).fromNow()}
-            </p>
-          </div>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              <h3>User info</h3>
+              <div>
+                <Avatar seed={user.username} size="6.25rem" />
+              </div>
+              <form
+                onSubmit={handleSubmit}
+                type="submit"
+                className="userInfo__username"
+              >
+                {!edit ? (
+                  <p className="userInfo__username-p">{inputUsernema}</p>
+                ) : (
+                  <input
+                    ref={inputRef}
+                    className="userInfo__username-input"
+                    type="text"
+                    value={inputUsernema}
+                    onChange={(e) => setInputUsernema(e.target.value)}
+                  />
+                )}
+                <FaRegEdit
+                  style={{ color: `${edit ? "#7693fc" : "#777"}` }}
+                  onClick={handleClick}
+                />
+              </form>
+              <div
+                className={toggleArrow ? "arrowIcon active" : "arrowIcon"}
+                onClick={() => setToggleArrow(!toggleArrow)}
+              >
+                <FaArrowDown />
+              </div>
+              <div
+                className={
+                  toggleArrow ? "userInfo__mini active" : "userInfo__mini"
+                }
+              >
+                <p>
+                  <span>Username:</span> {inputUsernema}
+                </p>
+                <p>
+                  <span>Email:</span> {user.email}
+                </p>
+                <p>
+                  <span>Created in:</span>{" "}
+                  {moment(new Date(user.createdAt)).format("MM/DD/YYYY")}
+                </p>
+                <p>
+                  <span>Last update:</span>{" "}
+                  {moment(new Date(user.updatedAt)).fromNow()}
+                </p>
+              </div>
+            </>
+          )}
         </>
       ) : (
         <h3>Please login for user info</h3>
