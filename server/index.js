@@ -19,6 +19,7 @@ app.listen(PORT, () => {
 // express.json & urlencoded is for Reading the body..
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use("/api/uploads", express.static("uploads"));
 
 // The routes
 app.use("/api/users", userRoute);

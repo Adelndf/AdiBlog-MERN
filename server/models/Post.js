@@ -7,7 +7,7 @@ const postSchema = mongoose.Schema(
       required: [true, "Please add a description"],
       max: 200,
     },
-    image: {
+    postImage: {
       type: String,
       default: "",
     },

@@ -110,7 +110,11 @@ const updateUser = asyncHandler(async (req, res) => {
   const { username } = req.body;
 
   const usernameExists = await User.findOne({
-    username: username.toLowerCase(),
+    username:
+      username ||
+      username.capitalize() ||
+      username.toLowerCase() ||
+      username.toUpperCase(),
   });
   if (usernameExists) {
     res.status(400);
@@ -118,13 +122,17 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, {
-      username: username.toLowerCase(),
-    });
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        username: username,
+      },
+      { new: true }
+    );
     if (user) {
       res.status(200).json({
         _id: user._id,
-        username: user.username,
+        username: username,
         email: user.email,
         token: generateToken(user._id),
         isAdmin: user.isAdmin,
