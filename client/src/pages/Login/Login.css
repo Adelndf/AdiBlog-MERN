@@ -55,7 +55,8 @@
   font-size: 1rem;
 }
 .login__inputs input:focus {
-  border: 1px solid rgb(180, 180, 180);
+  border: 1px solid var(--blue-clr);
+  box-shadow: 0 0 5px var(--blue-clr-alt);
 }
 .login__box > p {
   margin: 1rem 0;

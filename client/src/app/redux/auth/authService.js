@@ -1,4 +1,3 @@
-import * as api from "../../api";
 import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/users/";
@@ -11,7 +10,7 @@ const register = async (userData) => {
   return res.data;
 };
 
-const logout = async () => {
+const logout = () => {
   localStorage.removeItem("user");
 };
 
@@ -23,13 +22,25 @@ const login = async (userData) => {
   return res.data;
 };
 
-const updateUser = async (newUserData, id) => {
-  // api.updateUser(id, payload);
-  const res = await axios.put(API_URL + id, newUserData);
-  if (res.data) {
+const updateUser = async (newUserData) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    const res = await axios.put(API_URL + user._id, newUserData);
     localStorage.setItem("user", JSON.stringify(res.data));
+    return res.data;
+  } else {
+    console.log("Error no user");
   }
-  return res.data;
+};
+
+const deleteUser = async (id) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    await axios.delete(API_URL + id);
+    localStorage.removeItem("user");
+  } else {
+    console.log("Error no user");
+  }
 };
 
 const authService = {
@@ -37,6 +48,7 @@ const authService = {
   logout,
   login,
   updateUser,
+  deleteUser,
 };
 
 export default authService;

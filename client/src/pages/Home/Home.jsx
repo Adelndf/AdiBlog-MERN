@@ -1,23 +1,48 @@
 import "./Home.css";
 import { PostForm, Post, UserInfo, Spinner } from "../../components";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { getPosts } from "../../app/redux/posts/postsSlice";
 import { getUsers } from "../../app/redux/users/usersSlice";
+import { reset } from "../../app/redux/auth/authSlice";
+import { toast } from "react-toastify";
 
 const Home = () => {
-  const { posts, isLoading, message, isError } = useSelector(
-    (state) => state.posts
+  const posts = useSelector((state) => state.posts);
+  const { user, isError, message, isSuccess } = useSelector(
+    (state) => state.auth
   );
+  const [myUsername, setMyUsername] = useState(user?.username);
   const topUsers = useSelector((state) => state.users);
   const dispatch = useDispatch();
+  const effectRun = useRef(false);
 
   useEffect(() => {
-    dispatch(getUsers());
-    dispatch(getPosts());
-    console.log("123");
+    if (effectRun.current === true) {
+      if (isError) {
+        toast.error(message);
+        setMyUsername(user.username);
+      }
+      if (isSuccess) {
+        toast.success(message);
+      }
+
+      dispatch(reset());
+    }
+    return () => {
+      effectRun.current = true;
+    };
+  }, [dispatch, isError, isSuccess, message, user?.username]);
+
+  useEffect(() => {
+    if (effectRun.current === true) {
+      dispatch(getUsers());
+      dispatch(getPosts());
+    }
+    return () => {
+      effectRun.current = true;
+    };
   }, [dispatch]);
 
   return (
@@ -31,11 +56,11 @@ const Home = () => {
               <span> Adi</span>
               <span>Blog </span>
             </h1>
-            {isLoading ? (
+            {posts.isLoading ? (
               <Spinner />
             ) : (
               <>
-                {posts.map((post) => (
+                {posts.posts.map((post) => (
                   <Post post={post} key={post._id} />
                 ))}
               </>
@@ -65,7 +90,7 @@ const Home = () => {
               </div>
             </div>
             <div className="home__userInfo">
-              <UserInfo />
+              <UserInfo myUsername={myUsername} setMyUsername={setMyUsername} />
             </div>
           </div>
         </div>

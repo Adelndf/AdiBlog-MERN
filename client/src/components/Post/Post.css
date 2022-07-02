@@ -137,7 +137,8 @@
 @media screen and (min-width: 768px) {
   .post {
     flex-direction: row;
-    min-height: 200px;
+    min-height: 180px;
+    max-height: 180px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   }
   .post:hover {
@@ -145,13 +146,27 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   .post > img {
-    min-width: 270px;
-    max-width: 270px;
+    min-width: 240px;
+    max-width: 240px;
     max-height: 200px;
   }
   .post__info {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+}
+@media screen and (min-width: 991px) {
+  .post {
+    flex-direction: row;
+    min-height: 200px;
+    max-height: 200px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .post > img {
+    min-width: 270px;
+    max-width: 270px;
+    max-height: 200px;
   }
 }

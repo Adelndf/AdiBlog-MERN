@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
+const Post = require("../models/Post");
 
 // get all users
 // Public
@@ -147,17 +148,13 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-  if (req.body.userID === req.params.id || req.body.isAdmin) {
-    try {
-      await User.findByIdAndDelete(req.params.id);
-      res.status(200).json({ message: "User deleted seccesfully" });
-    } catch (err) {
-      res.status(400);
-      throw new Error("somthing is wrong");
-    }
-  } else {
+  try {
+    await Post.deleteMany({ userID: req.params.id });
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "User deleted seccesfully" });
+  } catch (err) {
     res.status(400);
-    throw new Error("Can't do this action");
+    throw new Error("somthing is wrong");
   }
 });
 

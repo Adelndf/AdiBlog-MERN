@@ -57,6 +57,7 @@ const Register = () => {
             <div className="register__inputs">
               <input
                 type="text"
+                id="username"
                 placeholder="Display name"
                 name="username"
                 onChange={onChange}

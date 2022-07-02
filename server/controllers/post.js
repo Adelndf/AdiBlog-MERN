@@ -1,10 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const Post = require("../models/Post");
-const User = require("../models/User");
 
 const getPosts = asyncHandler(async (req, res) => {
   try {
     const posts = await Post.find().sort({ createdAt: -1 });
+
     res.status(200).json(posts);
   } catch (err) {
     res.status(500);

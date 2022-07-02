@@ -7,3 +7,4 @@ export const fetchUsers = () => axios.get(`${URL}/users`);
 export const fetchUserById = (id) => axios.get(`${URL}/users/${id}`);
 export const updateUser = (id, payload) =>
   axios.put(`${URL}/users/${id}`, payload);
+export const deleteUser = (id) => axios.put(`${URL}/users/${id}`);

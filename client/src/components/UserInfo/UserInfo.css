@@ -81,7 +81,7 @@
   }
 
   .userInfo.active {
-    max-height: 410px;
+    max-height: 550px;
     transition: var(--transition-150);
   }
 
@@ -104,6 +104,49 @@
     flex: 1;
     color: #777;
     font-weight: bold;
+  }
+  .userInfo__delete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--black-clr-alt);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    opacity: 0.5;
+    transition: var(--transition-150);
+  }
+  .userInfo__delete > p {
+    color: var(--white-clr);
+    font-size: 14px;
+  }
+  .userInfo__delete:hover {
+    opacity: 1;
+  }
+  .userInfo__delete button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--white-clr);
+    color: var(--danger-clr);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .userInfo__delete.active {
+    flex-direction: column;
+    gap: 10px;
+    background: var(--danger-clr);
+    opacity: 1;
+  }
+  .userInfo__delete.active > p {
+    color: var(--white-clr);
+    font-size: 16px;
+  }
+  .userInfo__delete.active button {
+    margin: 0 5px;
   }
 
   .userInfo__mini.active {

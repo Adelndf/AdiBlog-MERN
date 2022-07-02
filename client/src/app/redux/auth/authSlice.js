@@ -57,7 +57,24 @@ export const updateUser = createAsyncThunk(
   "auth/update",
   async (newUserData, thunkAPI) => {
     try {
-      return await authService.updateUser(newUserData, user._id);
+      return await authService.updateUser(newUserData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  "auth/delete",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.deleteUser(id);
     } catch (error) {
       const message =
         (error.response &&
@@ -125,11 +142,25 @@ export const authSlice = createSlice({
       state.isSuccess = true;
       state.isLoading = false;
       state.user = action.payload;
+      state.message = `Updated successfully.!`;
     });
     builder.addCase(updateUser.rejected, (state, action) => {
       state.isError = true;
       state.isLoading = false;
+      state.message = action.payload;
+    });
+    builder.addCase(deleteUser.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteUser.fulfilled, (state) => {
+      state.isSuccess = true;
+      state.isLoading = false;
+      state.message = `Deleted successfully.!`;
       state.user = null;
+    });
+    builder.addCase(deleteUser.rejected, (state, action) => {
+      state.isError = true;
+      state.isLoading = false;
       state.message = action.payload;
     });
   },

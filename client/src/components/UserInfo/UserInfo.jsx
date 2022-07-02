@@ -3,55 +3,37 @@ import Avatar from "../Avatar/Avatar";
 import { FaRegEdit } from "react-icons/fa";
 import "./UserInfo.css";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { FaArrowDown } from "react-icons/fa";
 import moment from "moment";
-import * as api from "../../app/api";
 import { updateUser } from "../../app/redux/auth/authSlice";
-import { useMemo } from "react";
 import Spinner from "../Spinner/Spinner";
+import { deleteUser } from "./../../app/redux/auth/authSlice";
 
-const UserInfo = () => {
-  const { user, isSuccess, isError, message, isLoading } = useSelector(
-    (state) => state.auth
-  );
-  const [inputUsernema, setInputUsernema] = useState(user ? user.username : "");
+const UserInfo = ({ myUsername, setMyUsername }) => {
+  const { user, isLoading } = useSelector((state) => state.auth);
   const [edit, setEdit] = useState(false);
   const inputRef = useRef(null);
   const [toggleArrow, setToggleArrow] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const dispatch = useDispatch();
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     setEdit(!edit);
-    setInputUsernema(user.username);
+    setMyUsername(user.username);
     if (edit) {
       inputRef.current.focus();
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const { data } = await api.fetchUserById(user._id);
-      const newName = inputRef.current.value;
-      setInputUsernema(newName);
-      const sendData = {
-        ...data,
-        username: newName,
-      };
-      dispatch(updateUser(sendData));
-      toast.success(`Updated to ${newName} 🥳`);
-      setEdit(false);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      console.log(message);
-    }
+    const newName = inputRef.current.value;
+    dispatch(updateUser({ username: newName }));
+    setEdit(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteUser(user._id));
   };
 
   return (
@@ -72,14 +54,14 @@ const UserInfo = () => {
                 className="userInfo__username"
               >
                 {!edit ? (
-                  <p className="userInfo__username-p">{inputUsernema}</p>
+                  <p className="userInfo__username-p">{myUsername}</p>
                 ) : (
                   <input
                     ref={inputRef}
                     className="userInfo__username-input"
                     type="text"
-                    value={inputUsernema}
-                    onChange={(e) => setInputUsernema(e.target.value)}
+                    value={myUsername}
+                    onChange={(e) => setMyUsername(e.target.value)}
                   />
                 )}
                 <FaRegEdit
@@ -99,7 +81,7 @@ const UserInfo = () => {
                 }
               >
                 <p>
-                  <span>Username:</span> {inputUsernema}
+                  <span>Username:</span> {myUsername}
                 </p>
                 <p>
                   <span>Email:</span> {user.email}
@@ -112,6 +94,20 @@ const UserInfo = () => {
                   <span>Last update:</span>{" "}
                   {moment(new Date(user.updatedAt)).fromNow()}
                 </p>
+                {isDelete ? (
+                  <div className="userInfo__delete active">
+                    <p>Are you sure you want to delete.?</p>
+                    <div>
+                      <button onClick={handleDelete}>Delete</button>
+                      <button onClick={() => setIsDelete(false)}>Cancel</button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="userInfo__delete">
+                    <p>Delete account: </p>
+                    <button onClick={() => setIsDelete(true)}>Delete</button>
+                  </div>
+                )}
               </div>
             </>
           )}

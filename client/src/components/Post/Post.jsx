@@ -22,10 +22,10 @@ const Post = ({ post }) => {
       setUserPost(res.data);
     };
     getUserPost();
-  }, [post.userID, user.username]);
+  }, [post.userID, user?.username]);
 
   useEffect(() => {
-    if (user?._id === post.userID) {
+    if (user?._id === post.userID || user?.isAdmin) {
       setMyUser(true);
     } else {
       setMyUser(false);
