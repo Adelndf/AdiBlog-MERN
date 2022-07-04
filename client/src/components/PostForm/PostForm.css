@@ -43,6 +43,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+}
+.postForm__input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .postForm__input label {
   display: flex;
@@ -61,6 +67,14 @@
   cursor: pointer;
   width: 100%;
   max-width: 300px;
+}
+.postForm__input > span {
+  font-size: 10px;
+  color: var(--gray-clr);
+}
+.postForm__input > span.fileSizeError {
+  color: var(--danger-clr);
+  animation: fileError 0.5s alternate;
 }
 
 .postForm__input > textarea {
@@ -142,5 +156,17 @@
   }
   .postForm__avatar {
     display: flex;
+  }
+  .postForm__input > span {
+    font-size: 12px;
+  }
+}
+
+@keyframes fileError {
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(-5deg);
   }
 }

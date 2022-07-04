@@ -1,16 +1,19 @@
 import "./PostForm.css";
 import { pic1, pic2, pic3, pic4, pic5, pic6 } from "../../images";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import Avatar from "../Avatar/Avatar";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost } from "../../app/redux/posts/postsSlice";
 
 const PostForm = () => {
   const [randomImg, setRandomImg] = useState(null);
   const [desc, setDesc] = useState("");
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null);
   const { user } = useSelector((state) => state.auth);
+  const effectRun = useRef(false);
+  const dispatch = useDispatch();
+  const [fileSizeError, setFileSizeError] = useState(false);
 
   const pickImage = () => {
     const imagesArr = [pic1, pic2, pic3, pic4, pic5, pic6];
@@ -19,30 +22,26 @@ const PostForm = () => {
   };
 
   useEffect(() => {
-    pickImage();
+    if (effectRun.current === true) {
+      pickImage();
+    }
+    return () => (effectRun.current = true);
   }, []);
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    try {
-      const newPost = {
-        description: desc,
-        postImage: file, // fix
-        userID: user._id,
-      };
-      await axios
-        .post("http://localhost:5000/api/posts", newPost)
-        .then(function (response) {
-          console.log(response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-
+    const maxFileSize = 1024 * 1024 * 5;
+    if (file.size <= maxFileSize) {
+      const formData = new FormData();
+      formData.append("description", desc);
+      formData.append("userID", user._id);
+      formData.append("postImage", file);
+      dispatch(createPost(formData));
       setDesc("");
-      setFile("");
-    } catch (err) {
-      console.log(err);
+      setFile(null);
+      setFileSizeError(false);
+    } else {
+      setFileSizeError(true);
     }
   };
 
@@ -67,18 +66,32 @@ const PostForm = () => {
                 />
               </div>
               <div className="postForm__input">
-                <label htmlFor="inputImg">
-                  <FaImage />
-                </label>
-                <input
-                  id="inputImg"
-                  type="file"
-                  className="postForm__inputImg"
-                  onChange={(e) => setFile(e.target.files[0])}
-                />
+                <div className="postForm__input-wrapper">
+                  <label htmlFor="inputImg">
+                    <FaImage />
+                  </label>
+                  <input
+                    id="inputImg"
+                    type="file"
+                    className="postForm__inputImg"
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                </div>
+                <span className={fileSizeError ? "fileSizeError" : ""}>
+                  Max 5 MB - (jpeg, png, gif) only.
+                </span>
               </div>
               <div className="postForm__btns">
-                <button type="submit">post</button>
+                <button
+                  disabled={!desc.trim()}
+                  style={{
+                    opacity: !desc && 0.4,
+                    cursor: !desc && "not-allowed",
+                  }}
+                  type="submit"
+                >
+                  post
+                </button>
               </div>
             </div>
           </div>

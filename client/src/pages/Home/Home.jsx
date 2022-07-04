@@ -3,18 +3,21 @@ import { PostForm, Post, UserInfo, Spinner } from "../../components";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { getPosts } from "../../app/redux/posts/postsSlice";
-import { getUsers } from "../../app/redux/users/usersSlice";
 import { reset } from "../../app/redux/auth/authSlice";
 import { toast } from "react-toastify";
+import * as api from "../../app/api";
+import {
+  getPosts,
+  reset as resetPosts,
+} from "../../app/redux/posts/postsSlice";
 
 const Home = () => {
   const posts = useSelector((state) => state.posts);
+  const [topUsers, setTopUsers] = useState([]);
   const { user, isError, message, isSuccess } = useSelector(
     (state) => state.auth
   );
   const [myUsername, setMyUsername] = useState(user?.username);
-  const topUsers = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const effectRun = useRef(false);
 
@@ -35,15 +38,46 @@ const Home = () => {
     };
   }, [dispatch, isError, isSuccess, message, user?.username]);
 
+  // Get posts
   useEffect(() => {
     if (effectRun.current === true) {
-      dispatch(getUsers());
       dispatch(getPosts());
     }
     return () => {
       effectRun.current = true;
     };
   }, [dispatch]);
+
+  // Reset Posts slice
+  useEffect(() => {
+    if (effectRun.current === true) {
+      if (posts.isError) {
+        toast.error(posts.message);
+      }
+      if (posts.isSuccess && posts.message !== "") {
+        toast.success(posts.message);
+      }
+
+      dispatch(resetPosts());
+    }
+    return () => {
+      effectRun.current = true;
+    };
+  }, [dispatch, posts.isError, posts.isSuccess, posts.message]);
+
+  // Get top 5 users
+  useEffect(() => {
+    if (effectRun.current === true) {
+      const getUsers = async () => {
+        const { data } = await api.fetchUsers();
+        setTopUsers(data.slice(0, 5));
+      };
+      getUsers();
+    }
+    return () => {
+      effectRun.current = true;
+    };
+  }, []);
 
   return (
     <div className="home">
@@ -56,11 +90,11 @@ const Home = () => {
               <span> Adi</span>
               <span>Blog </span>
             </h1>
-            {posts.isLoading ? (
+            {!posts.posts || posts.isLoading ? (
               <Spinner />
             ) : (
               <>
-                {posts.posts.map((post) => (
+                {posts.posts.slice(0, 10).map((post) => (
                   <Post post={post} key={post._id} />
                 ))}
               </>
@@ -70,11 +104,11 @@ const Home = () => {
             <div className="home__users">
               <h3>Recent 5 users, Welcome..</h3>
               <div className="home__users-container">
-                {topUsers.isLoading ? (
+                {!topUsers ? (
                   <Spinner />
                 ) : (
                   <>
-                    {topUsers.users.map((user, i) => (
+                    {topUsers.map((user, i) => (
                       <div className="home__user" key={user._id}>
                         <span>
                           <span className="home__user-index">{i + 1}</span>

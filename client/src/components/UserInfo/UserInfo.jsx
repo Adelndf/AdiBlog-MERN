@@ -34,6 +34,10 @@ const UserInfo = ({ myUsername, setMyUsername }) => {
 
   const handleDelete = () => {
     dispatch(deleteUser(user._id));
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
 
   return (
@@ -54,7 +58,9 @@ const UserInfo = ({ myUsername, setMyUsername }) => {
                 className="userInfo__username"
               >
                 {!edit ? (
-                  <p className="userInfo__username-p">{myUsername}</p>
+                  <p className="userInfo__username-p">
+                    {myUsername || user.username}
+                  </p>
                 ) : (
                   <input
                     ref={inputRef}
