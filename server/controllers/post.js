@@ -13,18 +13,17 @@ const getPosts = asyncHandler(async (req, res) => {
 });
 
 const createPost = asyncHandler(async (req, res) => {
-  const { description, userID } = req.body;
   console.log(req.file);
   try {
     const newPost = await Post.create({
-      description,
-      userID,
-      postImage: req.file.path,
+      description: req.body.description,
+      userID: req.body.userID,
+      postImage: req.file ? req.file.path : null,
     });
     res.status(201).json(newPost);
   } catch (err) {
     res.status(500);
-    throw new Error("error => Did't create post!!");
+    throw new Error(err);
   }
 });
 
@@ -61,7 +60,9 @@ const deletePost = asyncHandler(async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     await post.deleteOne();
-    res.status(200).json({ message: "Deleted the post seccesfully!" });
+    res
+      .status(200)
+      .json({ id: req.params.id, message: "Post deleted seccesfully!" });
   } catch (err) {
     res.status(500);
     throw new Error("Can't do this action");
