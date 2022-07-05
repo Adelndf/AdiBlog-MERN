@@ -45,7 +45,7 @@ const Post = ({ post }) => {
         <img
           src={
             post.postImage
-              ? `http://localhost:5000/api/${post.postImage}`
+              ? `${process.env.REACT_APP_BASE_URL}/${post.postImage}`
               : placeholder
           }
           alt="post-img"

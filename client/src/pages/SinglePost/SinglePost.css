@@ -1,0 +1,137 @@
+.singlePost {
+  min-height: var(--screen-mHight);
+  padding: 2rem 0;
+  position: relative;
+}
+.singlePost__topMobile {
+  padding: 5px;
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.singlePost__info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--white-clr);
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.singlePost__info-avatar {
+}
+.singlePost__info-username {
+  flex: 1;
+}
+.singlePost__info-username > p:first-child {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--black-clr);
+}
+.singlePost__info-username > p:last-child {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--gray-clr);
+}
+.singlePost__info-dots {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white-clr-alt);
+  border-radius: 50% 50% 50% 50%;
+  position: relative;
+  transition: var(--transition-150);
+  cursor: pointer;
+}
+.singlePost__info-dots.active {
+  border-radius: 50% 50% 50% 0;
+  background: var(--blue-clr-alt);
+}
+.singlePost__info-dots > svg {
+  color: var(--black-clr);
+}
+.singlePost__info-dots.active > svg {
+  color: var(--white-clr);
+}
+
+.singlePost__info-opt {
+  position: absolute;
+  background: var(--blue-clr-alt);
+  top: 30px;
+  right: 30px;
+  padding: 0.5rem 0;
+  border-radius: 10px 0 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transform: scale(0);
+  transform-origin: top right;
+  transition: var(--transition-150);
+  overflow: hidden;
+}
+.singlePost__info-dots.active .singlePost__info-opt {
+  transform: scale(1);
+}
+
+.singlePost__info-opt > button {
+  color: var(--white-clr);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition-150);
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 5px 10px;
+  font-size: 1rem;
+}
+.singlePost__info-opt > button:hover {
+  transform: translateX(5px);
+}
+.singlePost__info-opt > button:disabled,
+.singlePost__info-opt > button[disabled] {
+  opacity: 0.5;
+  transform: inherit;
+}
+
+.singlePost__topMobile > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 5px solid var(--white-clr);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--white-clr-alt);
+  max-height: 300px;
+}
+
+.singlePost__imageLg {
+  position: absolute;
+  width: 100%;
+  height: 400px;
+  display: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+  background: var(--white-clr-alt);
+}
+
+@media screen and (min-width: 500px) {
+  .singlePost__topMobile > img {
+    max-height: 450px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .singlePost {
+    padding: 0 0;
+  }
+  .singlePost__topMobile {
+    display: none;
+  }
+  .singlePost__imageLg {
+    display: block;
+  }
+}

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://localhost:5000/api";
+const URL = process.env.REACT_APP_BASE_URL;
 
 // User
 export const fetchUsers = () => axios.get(`${URL}/users`);
@@ -13,3 +13,4 @@ export const deleteUser = (id) => axios.delete(`${URL}/users/${id}`);
 export const fetchPosts = () => axios.get(`${URL}/posts`);
 export const deletePost = (id) => axios.delete(`${URL}/posts/${id}`);
 export const createPost = (post) => axios.post(`${URL}/posts`, post);
+export const fetchPostById = (id) => axios.get(`${URL}/posts/${id}`);

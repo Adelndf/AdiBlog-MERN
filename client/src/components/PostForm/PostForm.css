@@ -92,14 +92,7 @@
   background: transparent;
 }
 
-.postForm__btns {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-.postForm__btns button {
+.postForm__inputs button {
   width: 100px;
   height: 30px;
   text-transform: capitalize;
@@ -109,14 +102,14 @@
   transition: var(--transition-150);
   font-size: 1rem;
 }
-.postForm__btns button:active {
+.postForm__inputs button:active {
   transform: scale(0.95);
 }
-.postForm__btns button {
+.postForm__inputs button {
   background: var(--blue-clr);
   color: var(--white-clr);
 }
-.postForm__btns button:hover {
+.postForm__inputs button:hover {
   background: var(--blue-clr-alt);
 }
 

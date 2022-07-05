@@ -1,22 +1,31 @@
 import "./Error404.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Error404 = () => {
   const [count, setCount] = useState(5);
   const navigate = useNavigate();
+  const effectRun = useRef(false);
 
   useEffect(() => {
-    if (count !== 0) {
-      setTimeout(() => {
-        setCount(count - 1);
-      }, 1000);
-    } else {
-      setCount(0);
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+    if (effectRun.current === true) {
+      if (count !== 0) {
+        console.log("1");
+        setTimeout(() => {
+          setCount(count - 1);
+        }, 1000);
+      } else {
+        console.log("2");
+        setCount(0);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
     }
+
+    return () => {
+      effectRun.current = true;
+    };
   }, [count, navigate]);
 
   return (

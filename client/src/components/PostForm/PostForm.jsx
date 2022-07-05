@@ -31,7 +31,7 @@ const PostForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const maxFileSize = 1024 * 1024 * 5;
-    if (file.size <= maxFileSize) {
+    if (file?.size <= maxFileSize || desc !== "") {
       const formData = new FormData();
       formData.append("description", desc);
       formData.append("userID", user._id);
@@ -42,6 +42,9 @@ const PostForm = () => {
       setFileSizeError(false);
     } else {
       setFileSizeError(true);
+      setTimeout(() => {
+        setFileSizeError(false);
+      }, [2000]);
     }
   };
 
@@ -81,18 +84,16 @@ const PostForm = () => {
                   Max 5 MB - (jpeg, png, gif) only.
                 </span>
               </div>
-              <div className="postForm__btns">
-                <button
-                  disabled={!desc.trim()}
-                  style={{
-                    opacity: !desc && 0.4,
-                    cursor: !desc && "not-allowed",
-                  }}
-                  type="submit"
-                >
-                  post
-                </button>
-              </div>
+              <button
+                disabled={!desc.trim()}
+                style={{
+                  opacity: !desc && 0.4,
+                  cursor: !desc && "not-allowed",
+                }}
+                type="submit"
+              >
+                post
+              </button>
             </div>
           </div>
         </form>

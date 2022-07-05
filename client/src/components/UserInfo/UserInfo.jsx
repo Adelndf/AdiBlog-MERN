@@ -1,12 +1,12 @@
 import React, { useRef, useState } from "react";
+import "./UserInfo.css";
+import moment from "moment";
+import Spinner from "../Spinner/Spinner";
 import Avatar from "../Avatar/Avatar";
 import { FaRegEdit } from "react-icons/fa";
-import "./UserInfo.css";
 import { useDispatch, useSelector } from "react-redux";
 import { FaArrowDown } from "react-icons/fa";
-import moment from "moment";
 import { updateUser } from "../../app/redux/auth/authSlice";
-import Spinner from "../Spinner/Spinner";
 import { deleteUser } from "./../../app/redux/auth/authSlice";
 
 const UserInfo = ({ myUsername, setMyUsername }) => {
