@@ -108,6 +108,7 @@ export const authSlice = createSlice({
       state.isSuccess = true;
       state.isLoading = false;
       state.user = action.payload;
+      state.message = "Welcome to AdiBlog 👏🏻👏🏻";
     });
     builder.addCase(register.rejected, (state, action) => {
       state.isError = true;

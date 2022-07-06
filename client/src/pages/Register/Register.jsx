@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Register.css";
 import { Link } from "react-router-dom";
 import { log3 } from "../../images";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { register } from "../../app/redux/auth/authSlice";
+import { register, reset } from "../../app/redux/auth/authSlice";
 import { Spinner } from "./../../components";
 import LoginRegister from "../../HOC/LoginRegister";
 
@@ -17,15 +17,29 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+  const effectRun = useRef(false);
 
   const { username, email, confirmEmail, password, confirmPassword } = formData;
-  const { isLoading } = useSelector((state) => state.auth);
+  const { isLoading, message, isSuccess } = useSelector((state) => state.auth);
 
   const onChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  useEffect(() => {
+    if (effectRun.current === true) {
+      if (isSuccess) {
+        toast.success(message);
+      }
+
+      dispatch(reset());
+    }
+    return () => {
+      effectRun.current = true;
+    };
+  }, [dispatch, isSuccess, message]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +54,6 @@ const Register = () => {
         password,
       };
       dispatch(register(newUser));
-      toast.success("Welcome to AdiBlog 👏🏻👏🏻");
     }
   };
 
