@@ -113,7 +113,7 @@
   display: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   object-fit: cover;
-  background: var(--white-clr-alt);
+  background: var(--black-clr-alt);
 }
 
 .singlePost__desc {
@@ -141,6 +141,7 @@
   width: 25px;
   height: 25px;
   color: var(--danger-clr);
+  cursor: pointer;
 }
 .singlePost__desc-icon > span {
   color: var(--danger-clr);
@@ -222,6 +223,7 @@
     display: flex;
     gap: 1rem;
     align-items: flex-start;
+    padding-bottom: 5rem;
   }
   .singlePost .singlePost__lgContainer > .singlePost__left {
     flex: 2;
@@ -271,6 +273,15 @@
     transform: translate(-50%, -50%);
     width: 400px;
     height: 200px;
+  }
+  .singlePost__descP p {
+    line-height: 30px;
+  }
+  .singlePost__desc-icon > svg {
+    width: 30px;
+    height: 30px;
+    color: var(--danger-clr);
+    cursor: pointer;
   }
 
   .singlePost__topMobile {

@@ -31,7 +31,12 @@ const PostForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const maxFileSize = 1024 * 1024 * 5;
-    if (file?.size <= maxFileSize || desc !== "") {
+
+    const ifStatement = (type) => {
+      return file?.size <= maxFileSize && file?.type.split("/")[1] === type;
+    };
+
+    if (ifStatement("jpeg") || ifStatement("png") || ifStatement("gif")) {
       const formData = new FormData();
       formData.append("description", desc);
       formData.append("userID", user._id);

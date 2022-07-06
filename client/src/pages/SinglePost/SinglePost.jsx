@@ -71,10 +71,8 @@ const SinglePost = () => {
     if (user && userPost) {
       if (user._id === userPost._id || user.isAdmin) {
         setMyPost(true);
-        console.log("true");
       } else {
         setMyPost(false);
-        console.log("false");
       }
     }
   }, [user, user?._id, user?.isAdmin, userPost, userPost?._id]);
@@ -207,7 +205,9 @@ const SinglePost = () => {
                     </div>
                   )}
                 </div>
-                <p>{post.description}</p>
+                <div className="singlePost__descP">
+                  <p>{post.description}</p>
+                </div>
                 {user && (
                   <div className="singlePost__desc-icons">
                     <div onClick={handleLike} className="singlePost__desc-icon">
