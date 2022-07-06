@@ -16,6 +16,10 @@ app.listen(PORT, () => {
   console.log(`Server is online at port ${PORT}`);
 });
 
+app.get("/", (req, res) => {
+  res.send("App is running.");
+});
+
 // express.json & urlencoded is for Reading the body..
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
