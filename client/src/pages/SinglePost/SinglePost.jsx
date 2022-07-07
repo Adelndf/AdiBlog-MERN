@@ -101,7 +101,7 @@ const SinglePost = () => {
           <img
             src={
               post.postImage
-                ? `http://localhost:5000/api/${post.postImage}`
+                ? `${process.env.REACT_APP_BASE_URL}/${post.postImage}`
                 : placeholder
             }
             className="singlePost__imageLg"
@@ -156,7 +156,7 @@ const SinglePost = () => {
               <img
                 src={
                   post.postImage
-                    ? `http://localhost:5000/api/${post.postImage}`
+                    ? `${process.env.REACT_APP_BASE_URL}/${post.postImage}`
                     : placeholder
                 }
                 alt="post-img"

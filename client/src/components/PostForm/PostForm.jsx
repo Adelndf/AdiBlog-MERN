@@ -28,28 +28,38 @@ const PostForm = () => {
     return () => (effectRun.current = true);
   }, []);
 
+  const ifStatement = (type) => {
+    const maxFileSize = 1024 * 1024 * 5;
+    return file?.size <= maxFileSize && file?.type === `image/${type}`;
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    const maxFileSize = 1024 * 1024 * 5;
 
-    const ifStatement = (type) => {
-      return file?.size <= maxFileSize && file?.type.split("/")[1] === type;
-    };
-
-    if (ifStatement("jpeg") || ifStatement("png") || ifStatement("gif")) {
+    if (!file && desc !== "") {
       const formData = new FormData();
       formData.append("description", desc);
       formData.append("userID", user._id);
-      formData.append("postImage", file);
       dispatch(createPost(formData));
       setDesc("");
-      setFile(null);
-      setFileSizeError(false);
-    } else {
-      setFileSizeError(true);
-      setTimeout(() => {
+    }
+
+    if (file) {
+      if (ifStatement("jpeg") || ifStatement("png") || ifStatement("gif")) {
+        const formData = new FormData();
+        formData.append("description", desc);
+        formData.append("userID", user._id);
+        formData.append("postImage", file);
+        dispatch(createPost(formData));
+        setDesc("");
+        setFile(null);
         setFileSizeError(false);
-      }, [2000]);
+      } else {
+        setFileSizeError(true);
+        setTimeout(() => {
+          setFileSizeError(false);
+        }, [2000]);
+      }
     }
   };
 
