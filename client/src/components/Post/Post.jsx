@@ -58,7 +58,7 @@ const Post = ({ post }) => {
         <img
           src={
             post.postImage
-              ? `${process.env.REACT_APP_BASE_URL}/${post.postImage}`
+              ? `https://adiblog-server-production.up.railway.app/api/${post.postImage}`
               : placeholder
           }
           alt="post-img"

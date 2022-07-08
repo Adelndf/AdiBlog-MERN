@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const URL = process.env.REACT_APP_BASE_URL;
+// const URL = process.env.REACT_APP_BASE_URL;
+const URL = "https://adiblog-server-production.up.railway.app/api";
 
 // User
 export const fetchUsers = () => axios.get(`${URL}/users`);
