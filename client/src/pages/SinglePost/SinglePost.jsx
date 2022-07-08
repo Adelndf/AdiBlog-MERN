@@ -27,8 +27,6 @@ const SinglePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(sureDelete);
-
   useEffect(() => {
     if (effectRun.current === true) {
       dispatch(reset());
@@ -104,7 +102,7 @@ const SinglePost = () => {
             exit={{ opacity: 0, transition: { duration: 0.25 } }}
             src={
               post.postImage
-                ? `https://adiblog-server-production.up.railway.app/api/${post.postImage}`
+                ? `${process.env.REACT_APP_BASE_URL}/${post.postImage}`
                 : placeholder
             }
             className="singlePost__imageLg"
