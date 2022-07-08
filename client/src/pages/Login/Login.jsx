@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../app/redux/auth/authSlice";
 import { Spinner } from "../../components";
 import LoginRegister from "../../HOC/LoginRegister";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,14 @@ const Login = () => {
         {isLoading ? (
           <Spinner />
         ) : (
-          <form onSubmit={onSubmit} className="login__box">
+          <motion.form
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 20, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onSubmit={onSubmit}
+            className="login__box"
+          >
             <h3>
               - <span>Login</span> with your account
             </h3>
@@ -75,12 +83,18 @@ const Login = () => {
               <button type="submit">login</button>
               <Link to="/register">Create new account</Link>
             </div>
-          </form>
+          </motion.form>
         )}
       </div>
-      <div className="login__right">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.8 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className="login__right"
+      >
         <img src={log2} alt="pic1" />
-      </div>
+      </motion.div>
     </div>
   );
 };

@@ -7,22 +7,18 @@ import { Avatar, Spinner } from "../../components";
 import moment from "moment";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import useClickOutside from "../../hooks/useClickOutside";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost, getPostById, reset } from "../../app/redux/post/postSlice";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 const SinglePost = () => {
   const { id } = useParams();
   const [userPost, setUserPost] = useState(null);
   const effectRun = useRef(false);
   const [isOptions, setIsOptions] = useState(false);
-  const optRef = useRef(null);
-  useClickOutside(optRef, () => setIsOptions(false));
   const [isLiked, setIsLiked] = useState(false);
   const [sureDelete, setSureDelete] = useState(false);
-  const delRef = useRef(null);
-  useClickOutside(delRef, () => setSureDelete(false));
   const [myPost, setMyPost] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { post, isLoading, isSuccess, isError } = useSelector(
@@ -30,6 +26,8 @@ const SinglePost = () => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log(sureDelete);
 
   useEffect(() => {
     if (effectRun.current === true) {
@@ -83,8 +81,10 @@ const SinglePost = () => {
 
   const handleDelete = () => {
     dispatch(deletePost(post._id));
-    if (isSuccess) {
+    setTimeout(() => {
       navigate("/");
+    }, 1000);
+    if (isSuccess) {
       toast.success("Post was deleted successfully");
     }
     if (isError) {
@@ -98,7 +98,10 @@ const SinglePost = () => {
         <Spinner />
       ) : (
         <>
-          <img
+          <motion.img
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 0.5 } }}
+            exit={{ opacity: 0, transition: { duration: 0.25 } }}
             src={
               post.postImage
                 ? `${process.env.REACT_APP_BASE_URL}/${post.postImage}`
@@ -108,7 +111,12 @@ const SinglePost = () => {
             alt="post-img"
           />
           <div className="maxWidthScreen">
-            <div className="singlePost__topMobile">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.5 } }}
+              exit={{ opacity: 0, transition: { duration: 0.25 } }}
+              className="singlePost__topMobile"
+            >
               <div className="singlePost__info">
                 <div className="singlePost__info-avatar">
                   <Avatar size="4rem" seed={userPost?.username} />
@@ -120,7 +128,6 @@ const SinglePost = () => {
                 {myPost && (
                   <div
                     onClick={() => setIsOptions(!isOptions)}
-                    ref={optRef}
                     className={
                       isOptions
                         ? "singlePost__info-dots active"
@@ -138,7 +145,7 @@ const SinglePost = () => {
                 )}
                 {sureDelete && (
                   <div className="singlePost__sureDelete">
-                    <h3>Are you sure ?</h3>
+                    <h3>Are you sure 123 ?</h3>
                     <div>
                       <button onClick={handleDelete} className="delete">
                         Delete
@@ -173,9 +180,14 @@ const SinglePost = () => {
               <div className="singlePost__comments">
                 <p>Comments, soon..!</p>
               </div>
-            </div>
+            </motion.div>
             {/* larg screen */}
-            <div className="singlePost__lgContainer">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.5 } }}
+              exit={{ opacity: 0, transition: { duration: 0.25 } }}
+              className="singlePost__lgContainer"
+            >
               <div className="singlePost__left">
                 <div className="singlePost__leftHeader">
                   <div className="singlePost__infoLg-avatar">
@@ -188,7 +200,6 @@ const SinglePost = () => {
                   {myPost && (
                     <div
                       onClick={() => setIsOptions(!isOptions)}
-                      ref={optRef}
                       className={
                         isOptions
                           ? "singlePost__info-dots active"
@@ -221,10 +232,10 @@ const SinglePost = () => {
                 <h3>Comments</h3>
                 <p>Comming soon..!</p>
               </div>
-            </div>
+            </motion.div>
 
             {sureDelete && (
-              <div ref={delRef} className="singlePost__sureDelete lg">
+              <div className="singlePost__sureDelete lg">
                 <h3>Are you sure ?</h3>
                 <div>
                   <button onClick={handleDelete} className="delete">

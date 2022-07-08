@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { register, reset } from "../../app/redux/auth/authSlice";
 import { Spinner } from "./../../components";
 import LoginRegister from "../../HOC/LoginRegister";
+import { motion } from "framer-motion";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -63,7 +64,14 @@ const Register = () => {
         {isLoading ? (
           <Spinner />
         ) : (
-          <form onSubmit={onSubmit} className="register__box">
+          <motion.form
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 20, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onSubmit={onSubmit}
+            className="register__box"
+          >
             <h3>
               - Register <span>new</span> account
             </h3>
@@ -126,12 +134,18 @@ const Register = () => {
               <button type="submit">register</button>
               <Link to="/login">already have an account</Link>
             </div>
-          </form>
+          </motion.form>
         )}
       </div>
-      <div className="register__right">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.8 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className="register__right"
+      >
         <img src={log3} alt="pic1" />
-      </div>
+      </motion.div>
     </div>
   );
 };

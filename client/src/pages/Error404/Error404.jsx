@@ -1,6 +1,7 @@
 import "./Error404.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Error404 = () => {
   const [count, setCount] = useState(5);
@@ -30,7 +31,13 @@ const Error404 = () => {
 
   return (
     <div className="error">
-      <div className="error__container">
+      <motion.div
+        initial={{ y: 10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 10, opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className="error__container"
+      >
         <h1>Sorry, page not found</h1>
         <div className="error__svg">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
@@ -72,7 +79,7 @@ const Error404 = () => {
         <p>
           Redirect to home page in <span>{count}s</span>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };

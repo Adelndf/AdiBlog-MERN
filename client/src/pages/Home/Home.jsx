@@ -10,6 +10,7 @@ import {
   getPosts,
   reset as resetPosts,
 } from "../../app/redux/posts/postsSlice";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Home = () => {
   const posts = useSelector((state) => state.posts);
@@ -80,7 +81,12 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="home">
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="home"
+    >
       <div className="maxWidthScreen">
         <PostForm />
         <div className="home__feed">
@@ -90,13 +96,15 @@ const Home = () => {
               <span> Adi</span>
               <span>Blog </span>
             </h1>
-            {!posts.posts || posts.isLoading ? (
+            {!posts.posts ? (
               <Spinner />
             ) : (
               <>
-                {posts.posts.slice(0, 10).map((post) => (
-                  <Post post={post} key={post._id} />
-                ))}
+                <AnimatePresence>
+                  {posts.posts.slice(0, 10).map((post, i) => {
+                    return <Post post={post} key={post._id} />;
+                  })}
+                </AnimatePresence>
               </>
             )}
           </div>
@@ -129,7 +137,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

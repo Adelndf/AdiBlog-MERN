@@ -7,11 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchUserById } from "../../app/api";
 import { deletePost } from "../../app/redux/posts/postsSlice";
+import { motion } from "framer-motion";
+import Spinner from "../Spinner/Spinner";
 
 const Post = ({ post }) => {
   const [sureDelete, setSureDelete] = useState(false);
   const [userPost, setUserPost] = useState(null);
   const { user } = useSelector((state) => state.auth);
+  const { isLoading } = useSelector((state) => state.posts);
   const [myUser, setMyUser] = useState(false);
   const effectRun = useRef(false);
   const dispatch = useDispatch();
@@ -39,8 +42,18 @@ const Post = ({ post }) => {
     }
   }, [post.userID, user, user?._id]);
 
+  const animations = {
+    initial: { x: -30, opacity: 0 },
+    animate: { x: 0, opacity: 1, transition: { duration: 0.7 } },
+    exit: {
+      scale: 0,
+      opacity: 0,
+      transition: { duration: 0.2 },
+    },
+  };
+
   return (
-    <div className="post-wrapper">
+    <motion.div {...animations} layout className="post-wrapper">
       <Link to={`/post/${post._id}`} className="post">
         <img
           src={
@@ -67,21 +80,27 @@ const Post = ({ post }) => {
       {myUser && <AiOutlineDelete onClick={() => setSureDelete(true)} />}
       {sureDelete && (
         <div className="post__sureDelete">
-          <h3>Are you sure ?</h3>
-          <div>
-            <button
-              onClick={() => dispatch(deletePost(post._id))}
-              className="delete"
-            >
-              Delete
-            </button>
-            <button onClick={() => setSureDelete(false)} className="cancel">
-              Cancel
-            </button>
-          </div>
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              <h3>Are you sure ?</h3>
+              <div>
+                <button
+                  onClick={() => dispatch(deletePost(post._id))}
+                  className="delete"
+                >
+                  Delete
+                </button>
+                <button onClick={() => setSureDelete(false)} className="cancel">
+                  Cancel
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
