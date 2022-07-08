@@ -1,6 +1,6 @@
 import "./PostForm.css";
 import { pic1, pic2, pic3, pic4, pic5, pic6 } from "../../images";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import Avatar from "../Avatar/Avatar";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,6 @@ const PostForm = () => {
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
   const { user } = useSelector((state) => state.auth);
-  const effectRun = useRef(false);
   const dispatch = useDispatch();
   const [fileSizeError, setFileSizeError] = useState(false);
 
@@ -22,10 +21,7 @@ const PostForm = () => {
   };
 
   useEffect(() => {
-    if (effectRun.current === true) {
-      pickImage();
-    }
-    return () => (effectRun.current = true);
+    pickImage();
   }, []);
 
   const ifStatement = (type) => {

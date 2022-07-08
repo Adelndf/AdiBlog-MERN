@@ -41,12 +41,7 @@ const Home = () => {
 
   // Get posts
   useEffect(() => {
-    if (effectRun.current === true) {
-      dispatch(getPosts());
-    }
-    return () => {
-      effectRun.current = true;
-    };
+    dispatch(getPosts());
   }, [dispatch]);
 
   // Reset Posts slice
@@ -68,16 +63,11 @@ const Home = () => {
 
   // Get top 5 users
   useEffect(() => {
-    if (effectRun.current === true) {
-      const getUsers = async () => {
-        const { data } = await api.fetchUsers();
-        setTopUsers(data.slice(0, 5));
-      };
-      getUsers();
-    }
-    return () => {
-      effectRun.current = true;
+    const getUsers = async () => {
+      const { data } = await api.fetchUsers();
+      setTopUsers(data.slice(0, 5));
     };
+    getUsers();
   }, []);
 
   return (

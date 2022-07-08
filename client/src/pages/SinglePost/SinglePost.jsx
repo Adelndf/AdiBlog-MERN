@@ -38,14 +38,9 @@ const SinglePost = () => {
 
   // Get post
   useEffect(() => {
-    if (effectRun.current === true) {
-      if (id) {
-        dispatch(getPostById(id));
-      }
+    if (id) {
+      dispatch(getPostById(id));
     }
-    return () => {
-      effectRun.current = true;
-    };
   }, [dispatch, id]);
 
   useEffect(() => {

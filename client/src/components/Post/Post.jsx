@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Post.css";
 import { AiOutlineDelete } from "react-icons/ai";
 import { placeholder } from "../../images";
@@ -16,18 +16,14 @@ const Post = ({ post }) => {
   const { user } = useSelector((state) => state.auth);
   const { isLoading } = useSelector((state) => state.posts);
   const [myUser, setMyUser] = useState(false);
-  const effectRun = useRef(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (effectRun.current === true) {
-      const getUserPost = async () => {
-        const { data } = await fetchUserById(post.userID);
-        setUserPost(data);
-      };
-      getUserPost();
-    }
-    return () => (effectRun.current = true);
+    const getUserPost = async () => {
+      const { data } = await fetchUserById(post.userID);
+      setUserPost(data);
+    };
+    getUserPost();
   }, [post.userID, user?.username]);
 
   useEffect(() => {
