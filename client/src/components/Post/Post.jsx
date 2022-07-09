@@ -67,7 +67,12 @@ const Post = ({ post }) => {
               <h3>{userPost ? userPost.username : "Loading.."}</h3>
             </div>
           </div>
-          <p>- {post.description.substring(0, 50)}...</p>
+          {post.description.length >= 50 ? (
+            <p>- {post?.description.substring(0, 50)}...</p>
+          ) : (
+            <p>- {post.description}</p>
+          )}
+
           <div className="post__like">
             <span>{post.likes} likes</span>
           </div>
