@@ -17,7 +17,7 @@ function App() {
           <Route path="/post/:id" element={<SinglePost />} />
 
           {/* Not found page */}
-          <Route path="/*" element={<Error404 />} />
+          <Route path="*" element={<Error404 />} />
         </Routes>
       </AnimatePresence>
       <ToastContainer />

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./SinglePost.css";
 import { useNavigate, useParams } from "react-router-dom";
 import * as api from "../../app/api";
@@ -15,47 +15,38 @@ import { motion } from "framer-motion";
 const SinglePost = () => {
   const { id } = useParams();
   const [userPost, setUserPost] = useState(null);
-  const effectRun = useRef(false);
   const [isOptions, setIsOptions] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [sureDelete, setSureDelete] = useState(false);
   const [myPost, setMyPost] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const { post, isLoading, isSuccess, isError } = useSelector(
+  const { post, isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.post
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (effectRun.current === true) {
-      dispatch(reset());
-    }
-    return () => {
-      effectRun.current = true;
-    };
-  }, [dispatch]);
-
   // Get post
   useEffect(() => {
-    if (id) {
-      dispatch(getPostById(id));
-    }
+    dispatch(getPostById(id));
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (effectRun.current === true) {
-      const getUser = async () => {
-        if (post) {
-          const { data } = await api.fetchUserById(post.userID);
-          setUserPost(data);
-        }
-      };
-      getUser();
+    if (isError && !post) {
+      toast.error(message);
+      navigate("/404");
     }
-    return () => {
-      effectRun.current = true;
+    dispatch(reset());
+  }, [dispatch, isError, message, navigate, post]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (post) {
+        const { data } = await api.fetchUserById(post.userID);
+        setUserPost(data);
+      }
     };
+    getUser();
   }, [post, post?.userID]);
 
   useEffect(() => {
@@ -87,7 +78,7 @@ const SinglePost = () => {
 
   return (
     <div className="singlePost">
-      {isLoading || !post ? (
+      {isLoading || !post || !userPost ? (
         <Spinner />
       ) : (
         <>
@@ -112,10 +103,10 @@ const SinglePost = () => {
             >
               <div className="singlePost__info">
                 <div className="singlePost__info-avatar">
-                  <Avatar size="4rem" seed={userPost?.username} />
+                  <Avatar size="4rem" seed={userPost.username} />
                 </div>
                 <div className="singlePost__info-username">
-                  <p>{userPost?.username}</p>
+                  <p>{userPost.username}</p>
                   <p>{moment(new Date(post.createdAt)).fromNow()}</p>
                 </div>
                 {myPost && (
@@ -156,7 +147,7 @@ const SinglePost = () => {
               <img
                 src={
                   post.postImage
-                    ? `${process.env.REACT_APP_BASE_URL}/${post.postImage}`
+                    ? `https://adiblogs.herokuapp.com/api/${post.postImage}`
                     : placeholder
                 }
                 alt="post-img"
@@ -184,10 +175,10 @@ const SinglePost = () => {
               <div className="singlePost__left">
                 <div className="singlePost__leftHeader">
                   <div className="singlePost__infoLg-avatar">
-                    <Avatar size="6rem" seed={userPost?.username} />
+                    <Avatar size="6rem" seed={userPost.username} />
                   </div>
                   <div className="singlePost__info-username">
-                    <p>{userPost?.username}</p>
+                    <p>{userPost.username}</p>
                     <p>{moment(new Date(post.createdAt)).fromNow()}</p>
                   </div>
                   {myPost && (

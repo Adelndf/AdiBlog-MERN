@@ -9,12 +9,10 @@ const Error404 = () => {
 
   useEffect(() => {
     if (count !== 0) {
-      console.log("1");
       setTimeout(() => {
         setCount(count - 1);
       }, 1000);
     } else {
-      console.log("2");
       setCount(0);
       setTimeout(() => {
         navigate("/");
@@ -28,7 +26,7 @@ const Error404 = () => {
         initial={{ y: 10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 10, opacity: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.25 }}
         className="error__container"
       >
         <h1>Sorry, page not found</h1>
