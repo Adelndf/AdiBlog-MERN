@@ -51,32 +51,41 @@ const Post = ({ post }) => {
   return (
     <motion.div {...animations} layout className="post-wrapper">
       <Link to={`/post/${post._id}`} className="post">
-        <img
-          src={
-            post.postImage
-              ? `https://adiblogs.herokuapp.com/api/${post.postImage}`
-              : placeholder
-          }
-          alt="post-img"
-        />
+        {!userPost ? (
+          <Spinner />
+        ) : (
+          <>
+            <img
+              src={
+                post.postImage
+                  ? `https://adiblogs.herokuapp.com/api/${post.postImage}`
+                  : placeholder
+              }
+              alt="post-img"
+            />
 
-        <div className="post__info">
-          <div className="post__username">
-            <div className="post__username-f">
-              <Avatar seed={userPost ? userPost.username : "x"} size="40px" />
-              <h3>{userPost ? userPost.username : "Loading.."}</h3>
+            <div className="post__info">
+              <div className="post__username">
+                <div className="post__username-f">
+                  <Avatar
+                    seed={userPost ? userPost.username : "x"}
+                    size="40px"
+                  />
+                  <h3>{userPost ? userPost.username : "Loading.."}</h3>
+                </div>
+              </div>
+              {post.description.length >= 50 ? (
+                <p>- {post.description.substring(0, 50)}...</p>
+              ) : (
+                <p>- {post.description}</p>
+              )}
+
+              <div className="post__like">
+                <span>{post.likes} likes</span>
+              </div>
             </div>
-          </div>
-          {post.description.length >= 50 ? (
-            <p>- {post.description.substring(0, 50)}...</p>
-          ) : (
-            <p>- {post.description}</p>
-          )}
-
-          <div className="post__like">
-            <span>{post.likes} likes</span>
-          </div>
-        </div>
+          </>
+        )}
       </Link>
       {myUser && <AiOutlineDelete onClick={() => setSureDelete(true)} />}
       {sureDelete && (
