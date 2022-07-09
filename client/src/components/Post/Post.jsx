@@ -48,8 +48,6 @@ const Post = ({ post }) => {
     },
   };
 
-  console.log(post.description);
-
   return (
     <motion.div {...animations} layout className="post-wrapper">
       <Link to={`/post/${post._id}`} className="post">
@@ -69,10 +67,10 @@ const Post = ({ post }) => {
               <h3>{userPost ? userPost.username : "Loading.."}</h3>
             </div>
           </div>
-          {post?.description?.length >= 50 ? (
-            <p>- {post?.description?.substring(0, 50)}...</p>
+          {post.description.length >= 50 ? (
+            <p>- {post.description.substring(0, 50)}...</p>
           ) : (
-            <p>- {post?.description}</p>
+            <p>- {post.description}</p>
           )}
 
           <div className="post__like">
