@@ -97,7 +97,7 @@ const SinglePost = () => {
             exit={{ opacity: 0, transition: { duration: 0.25 } }}
             src={
               post.postImage
-                ? `${process.env.REACT_APP_BASE_URL}/${post.postImage}`
+                ? `https://adiblogs.herokuapp.com/api/${post.postImage}`
                 : placeholder
             }
             className="singlePost__imageLg"

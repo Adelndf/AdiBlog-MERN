@@ -56,7 +56,7 @@ const Post = ({ post }) => {
         <img
           src={
             post.postImage
-              ? `${process.env.REACT_APP_BASE_URL}/${post.postImage}`
+              ? `https://adiblogs.herokuapp.com/api/${post.postImage}`
               : placeholder
           }
           alt="post-img"
