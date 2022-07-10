@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { reset } from "../../app/redux/auth/authSlice";
+import { resetAll } from "../../app/redux/post/postSlice";
 import { toast } from "react-toastify";
 import * as api from "../../app/api";
 import {
@@ -69,6 +70,10 @@ const Home = () => {
     };
     getUsers();
   }, []);
+
+  useEffect(() => {
+    dispatch(resetAll());
+  }, [dispatch]);
 
   return (
     <motion.div

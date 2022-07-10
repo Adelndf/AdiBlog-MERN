@@ -53,6 +53,13 @@ export const postSlice = createSlice({
       state.isLoading = false;
       state.message = "";
     },
+    resetAll: (state) => {
+      state.post = null;
+      state.isError = false;
+      state.isSuccess = false;
+      state.isLoading = false;
+      state.message = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -88,5 +95,5 @@ export const postSlice = createSlice({
   },
 });
 
-export const { reset } = postSlice.actions;
+export const { reset, resetAll } = postSlice.actions;
 export default postSlice.reducer;

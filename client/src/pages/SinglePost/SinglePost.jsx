@@ -78,7 +78,7 @@ const SinglePost = () => {
 
   return (
     <div className="singlePost">
-      {isLoading || !post || !userPost ? (
+      {!userPost || !post || isLoading ? (
         <Spinner />
       ) : (
         <>
@@ -129,7 +129,7 @@ const SinglePost = () => {
                 )}
                 {sureDelete && (
                   <div className="singlePost__sureDelete">
-                    <h3>Are you sure 123 ?</h3>
+                    <h3>Are you sure ?</h3>
                     <div>
                       <button onClick={handleDelete} className="delete">
                         Delete
