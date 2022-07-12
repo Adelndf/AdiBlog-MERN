@@ -3,14 +3,14 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBl92t5KrCFVxe6ou9agcXUhXOgffGRn1Y",
-  authDomain: "adi-blog-images.firebaseapp.com",
-  projectId: "adi-blog-images",
-  storageBucket: "adi-blog-images.appspot.com",
-  messagingSenderId: "687905187684",
-  appId: "1:687905187684:web:7355580cece0be5891bc71",
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const storage = getStorage(app, "gs://adi-blog-images.appspot.com");
+export const storage = getStorage(app, process.env.REACT_APP_MY_BUCKET);
