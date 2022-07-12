@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const API_URL = `${process.env.REACT_APP_BASE_URL}/users/`;
-// const API_URL = `https://adiblogs.herokuapp.com/api/users/`;
 
 const register = async (userData) => {
   const res = await axios.post(API_URL + "register", userData);

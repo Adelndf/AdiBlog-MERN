@@ -10,9 +10,6 @@ import { deletePost } from "../../app/redux/posts/postsSlice";
 import { motion } from "framer-motion";
 import Spinner from "../Spinner/Spinner";
 
-const API_URL = process.env.REACT_APP_BASE_URL;
-// const API_URL = "https://adiblogs.herokuapp.com/api";
-
 const Post = ({ post }) => {
   const [sureDelete, setSureDelete] = useState(false);
   const [userPost, setUserPost] = useState(null);

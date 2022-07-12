@@ -12,9 +12,6 @@ import { deletePost, getPostById, reset } from "../../app/redux/post/postSlice";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
-const API_URL = process.env.REACT_APP_BASE_URL;
-// const API_URL = "https://adiblogs.herokuapp.com/api";
-
 const SinglePost = () => {
   const { id } = useParams();
   const [userPost, setUserPost] = useState(null);
