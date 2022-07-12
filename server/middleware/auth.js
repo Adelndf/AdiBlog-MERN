@@ -11,7 +11,7 @@ const protect = asyncHandler(async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-      const verify = jwt.verify(token, process.env.JWT_SECRET);
+      const verify = jwt.verify(token, process.env.JWT_SECRET || "2260507a");
       req.user = await User.findById(verify.id).select("-password");
       next();
       console.log(req.body.isAdmin);

@@ -13,12 +13,11 @@ const getPosts = asyncHandler(async (req, res) => {
 });
 
 const createPost = asyncHandler(async (req, res) => {
-  console.log(req.file);
   try {
     const newPost = await Post.create({
       description: req.body.description,
       userID: req.body.userID,
-      postImage: req.file ? req.file.path : null,
+      postImage: req.body.postImage ? req.body.postImage : null,
     });
     res.status(201).json(newPost);
   } catch (err) {

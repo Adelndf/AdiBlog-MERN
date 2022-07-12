@@ -8,7 +8,8 @@ const postSchema = mongoose.Schema(
       max: 200,
     },
     postImage: {
-      type: Object,
+      type: String,
+      default: null,
     },
     likes: {
       type: Number,
