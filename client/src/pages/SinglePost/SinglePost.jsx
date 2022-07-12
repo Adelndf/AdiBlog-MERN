@@ -12,6 +12,9 @@ import { deletePost, getPostById, reset } from "../../app/redux/post/postSlice";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
+const API_URL = process.env.REACT_APP_BASE_URL;
+// const API_URL = "https://adiblogs.herokuapp.com/api";
+
 const SinglePost = () => {
   const { id } = useParams();
   const [userPost, setUserPost] = useState(null);
@@ -86,11 +89,7 @@ const SinglePost = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, transition: { duration: 0.5 } }}
             exit={{ opacity: 0, transition: { duration: 0.25 } }}
-            src={
-              post.postImage
-                ? `https://adiblogs.herokuapp.com/api/${post.postImage}`
-                : placeholder
-            }
+            src={post.postImage ? post.postImage : placeholder}
             className="singlePost__imageLg"
             alt="post-img"
           />
@@ -145,11 +144,7 @@ const SinglePost = () => {
                 )}
               </div>
               <img
-                src={
-                  post.postImage
-                    ? `https://adiblogs.herokuapp.com/api/${post.postImage}`
-                    : placeholder
-                }
+                src={post.postImage ? post.postImage : placeholder}
                 alt="post-img"
               />
               <div className="singlePost__desc">

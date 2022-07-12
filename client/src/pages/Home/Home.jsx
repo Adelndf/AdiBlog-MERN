@@ -16,6 +16,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const Home = () => {
   const posts = useSelector((state) => state.posts);
   const [topUsers, setTopUsers] = useState([]);
+
   const { user, isError, message, isSuccess } = useSelector(
     (state) => state.auth
   );

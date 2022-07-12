@@ -10,6 +10,9 @@ import { deletePost } from "../../app/redux/posts/postsSlice";
 import { motion } from "framer-motion";
 import Spinner from "../Spinner/Spinner";
 
+const API_URL = process.env.REACT_APP_BASE_URL;
+// const API_URL = "https://adiblogs.herokuapp.com/api";
+
 const Post = ({ post }) => {
   const [sureDelete, setSureDelete] = useState(false);
   const [userPost, setUserPost] = useState(null);
@@ -39,12 +42,12 @@ const Post = ({ post }) => {
   }, [post.userID, user, user?._id]);
 
   const animations = {
-    initial: { x: -30, opacity: 0 },
-    animate: { x: 0, opacity: 1, transition: { duration: 0.7 } },
+    initial: { x: -35, opacity: 0 },
+    animate: { x: 0, opacity: 1, transition: { duration: 0.5 } },
     exit: {
-      scale: 0,
+      scale: 0.7,
       opacity: 0,
-      transition: { duration: 0.2 },
+      transition: { duration: 0.25 },
     },
   };
 
@@ -56,11 +59,7 @@ const Post = ({ post }) => {
         ) : (
           <>
             <img
-              src={
-                post.postImage
-                  ? `https://adiblogs.herokuapp.com/api/${post.postImage}`
-                  : placeholder
-              }
+              src={post.postImage ? post.postImage : placeholder}
               alt="post-img"
             />
 

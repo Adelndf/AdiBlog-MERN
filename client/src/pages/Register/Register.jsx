@@ -46,7 +46,7 @@ const Register = () => {
     e.preventDefault();
     if (password !== confirmPassword) {
       toast.error("Password do not match!");
-    } else if (email !== confirmEmail) {
+    } else if (email.toLowerCase() !== confirmEmail.toLowerCase()) {
       toast.error("Email do not match!");
     } else {
       const newUser = {
